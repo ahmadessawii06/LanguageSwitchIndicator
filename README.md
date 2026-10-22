@@ -1,13 +1,10 @@
-<div align="center">
+<h1>
+  <img src="LanguageSwitchIndicator.App/Assets/Icons/language_switch_64.png" alt="" width="40" height="40">
+  Language Switch Indicator
+</h1>
 
-<img src="LanguageSwitchIndicator.App/Assets/Icons/language_switch_256.png" alt="Language Switch Indicator" width="96" height="96">
-
-# Language Switch Indicator
-
-**Know your keyboard language. Instantly.**
-
-A compact, macOS-inspired language popup for Windows.<br>
-Switch your keyboard language and see it clearly, right where you need it.
+**A little clarity with every language switch.**<br>
+A compact, macOS-inspired popup that puts your active keyboard language in view.
 
 <p>
   <img src="https://img.shields.io/badge/Windows-10%20%2F%2011-0078D4?style=flat-square" alt="Windows 10 and 11">
@@ -15,27 +12,27 @@ Switch your keyboard language and see it clearly, right where you need it.
   <img src="https://img.shields.io/badge/Built%20with-C%23%20%C2%B7%20WPF-343A46?style=flat-square" alt="Built with C# and WPF">
 </p>
 
-**[↓ Download for Windows](https://github.com/ahmadessawii06/LanguageSwitchIndicator/releases/latest)** · [Quick start](#quick-start) · [Build from source](#build-from-source)
+[**Download for Windows ↗**](https://github.com/ahmadessawii06/LanguageSwitchIndicator/releases/latest) &nbsp; / &nbsp; [Get started](#quick-start) &nbsp; / &nbsp; [Build from source](#build-from-source)
+
+---
 
 <img src="docs/images/indicator.png" alt="English and Arabic language popups with rounded corners and keyboard icons" width="640">
 
-<sub>A clear signal every time you switch. English, Arabic, and your other keyboard languages.</sub>
+<sub>English or العربية. See the switch without breaking your flow.</sub>
 
-</div>
+## Designed to stay out of your way
 
-## Small popup. Thoughtful details.
-
-| | |
-| :--- | :--- |
-| **⌨️ Instant feedback** — see the active language when you switch. | **✨ Smooth motion** — four animation presets with adjustable timing. |
-| **📍 Your preferred position** — center, corners, or near your cursor. | **◐ Adaptive tray icon** — stays visible in light and dark Windows themes. |
+- **⌨ Instant feedback** — your active language appears as you switch.
+- **✦ Smooth transitions** — four animation presets, with timing you can fine-tune.
+- **↗ Flexible placement** — show it at the center, a corner, or near your cursor.
+- **◐ A tray icon that fits** — adapts to light and dark Windows themes.
 
 <details>
-<summary><strong>⚙️ Take a look at the settings</strong></summary>
+<summary><strong>⚙ Preview the settings</strong></summary>
 
 Adjust popup size, font size, position, and animation timing. Preview your changes from settings or the tray menu.
 
-<p align="center">
+<p>
   <img src="docs/images/settings.png" alt="Settings window showing general options, popup appearance, and positioning controls" width="380">
 </p>
 

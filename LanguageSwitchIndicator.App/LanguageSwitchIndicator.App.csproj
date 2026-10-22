@@ -9,6 +9,13 @@
     <UseWindowsForms>true</UseWindowsForms>
     <AssemblyName>LanguageSwitchIndicator</AssemblyName>
     <RootNamespace>LanguageSwitchIndicator</RootNamespace>
+    <ApplicationIcon>Assets\Icons\LanguageSwitchIndicator.ico</ApplicationIcon>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Resource Include="Assets\Icons\LanguageSwitchIndicator.ico" />
+    <EmbeddedResource Include="Assets\Icons\tray_white.ico" />
+    <EmbeddedResource Include="Assets\Icons\tray_dark.ico" />
+  </ItemGroup>
 
 </Project>

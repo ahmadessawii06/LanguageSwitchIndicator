@@ -23,6 +23,8 @@ public class SettingsWindow : Window
         _settings = settings;
 
         Title = "Language Switch Indicator";
+        Icon = System.Windows.Media.Imaging.BitmapFrame.Create(
+            new Uri("pack://application:,,,/LanguageSwitchIndicator;component/Assets/Icons/LanguageSwitchIndicator.ico"));
         Width = 460;
         Height = 620;
         ResizeMode = ResizeMode.CanMinimize;

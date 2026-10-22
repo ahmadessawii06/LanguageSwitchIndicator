@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="LanguageSwitchIndicator.App/Assets/Icons/language_switch_256.png" alt="Language Switch Indicator icon" width="128" height="128">
+</p>
+
 # Language Switch Indicator
 
 A lightweight, macOS-inspired keyboard language indicator for Windows.

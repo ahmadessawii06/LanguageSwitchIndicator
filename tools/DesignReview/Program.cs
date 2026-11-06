@@ -66,9 +66,23 @@ internal static class Program
         editor.IndicatorSize = 4;
         editor.Theme = "Light";
         editor.FontSize = 34;
+        editor.AppTheme = "Dark";
         Pump();
         var saved = service.Load();
-        if (saved.IndicatorSize != 4 || saved.Theme != "Light" || saved.FontSize != 34) throw new Exception("Settings did not persist.");
+        if (saved.IndicatorSize != 4 || saved.Theme != "Light" || saved.FontSize != 34 || saved.AppTheme != "Dark") throw new Exception("Settings did not persist.");
+        
+        // Capture dark mode samples
+        var rootDark = (FrameworkElement)window.Content;
+        window.NavigateTo("Appearance");
+        Pump();
+        Capture(rootDark, 1180, 780, 1.25, Path.Combine(folder, "dark-appearance.png"));
+        window.NavigateTo("Position");
+        Pump();
+        Capture(rootDark, 1180, 780, 1.25, Path.Combine(folder, "dark-position.png"));
+        window.NavigateTo("General");
+        Pump();
+        Capture(rootDark, 1180, 780, 1.25, Path.Combine(folder, "dark-general.png"));
+        window.NavigateTo("Appearance");
         var fontBox = Descendants((DependencyObject)window.Content).OfType<TextBox>().First(x => System.Windows.Automation.AutomationProperties.GetName(x) == "Text size");
         fontBox.Text = "not a number";
         fontBox.GetBindingExpression(TextBox.TextProperty)!.UpdateSource();

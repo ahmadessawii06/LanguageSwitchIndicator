@@ -79,6 +79,7 @@ public class SettingsModel
     public bool IsPaused { get; set; } = false;
 
     public string Theme { get; set; } = "Dark";
+    public string AppTheme { get; set; } = "System";
     public string BackgroundColor { get; set; } = "#252525";
     public string TextColor { get; set; } = "#FFFFFF";
     public string FontFamily { get; set; } = "Segoe UI";
@@ -123,6 +124,7 @@ public class SettingsModel
             TriggerMode = TriggerMode,
             IsPaused = IsPaused,
             Theme = Theme,
+            AppTheme = AppTheme,
             BackgroundColor = BackgroundColor,
             TextColor = TextColor,
             FontFamily = FontFamily,

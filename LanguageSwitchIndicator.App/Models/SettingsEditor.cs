@@ -55,6 +55,7 @@ public sealed class SettingsEditor : INotifyPropertyChanged
     public PopupTriggerMode TriggerMode { get => Settings.TriggerMode; set { Settings.ShowOnlyOnLanguageChange = value == PopupTriggerMode.LanguageChangeOnly; Settings.ShowPopupOnTyping = value != PopupTriggerMode.LanguageChangeOnly; Set(value); } }
     public int IndicatorSize { get => Settings.IndicatorSize; set => Set(value); }
     public string Theme { get => Settings.Theme; set => Set(value); }
+    public string AppTheme { get => Settings.AppTheme; set => Set(value); }
     public string BackgroundColor { get => Settings.BackgroundColor; set => Set(ColorValue(value)); }
     public string TextColor { get => Settings.TextColor; set => Set(ColorValue(value)); }
     public string FontFamily { get => Settings.FontFamily; set { try { _ = new System.Windows.Media.FontFamily(value); } catch { throw new ArgumentException("Enter a font family name."); } Set(value); } }

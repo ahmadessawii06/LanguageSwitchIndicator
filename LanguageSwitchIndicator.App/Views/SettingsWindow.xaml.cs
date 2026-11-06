@@ -33,6 +33,8 @@ public partial class SettingsWindow : Window
     public SettingsWindow(SettingsService service, PopupManager popupManager, InputLanguageMonitor? monitor, SettingsModel settings, TypingCorrectionService? correction = null)
     {
         InitializeComponent();
+        AppThemeChoice.ItemsSource = new[] { "System", "Dark", "Light" };
+        AppThemeService.ApplyTheme(settings.AppTheme, this);
         foreach (var item in Navigation.Items.OfType<ListBoxItem>())
             System.Windows.Automation.AutomationProperties.SetName(item, item.Tag?.ToString() ?? "Settings page");
         _editor = new SettingsEditor(settings, service);
@@ -74,6 +76,7 @@ public partial class SettingsWindow : Window
     public void RefreshSettings() => _editor.NotifyAll();
     private void SettingsChanged()
     {
+        AppThemeService.ApplyTheme(_editor.AppTheme, this);
         RefreshPreview();
         if (!_applyingPreset) { _applyingPreset = true; PresetChoice.SelectedIndex = MatchingPreset(); _applyingPreset = false; }
         if (!_editor.Settings.Enabled || _editor.Settings.IsPaused) _popupManager.Dismiss();
@@ -128,7 +131,7 @@ public partial class SettingsWindow : Window
             "About" => "Meet the developer behind Language Switch Indicator.",
             _ => "Your language, always in view. Make the indicator work your way."
         };
-        AboutButton.Background = section == "About" ? (System.Windows.Media.Brush)FindResource("AccentSoft") : Brushes.White;
+        AboutButton.Background = section == "About" ? (System.Windows.Media.Brush)FindResource("AccentSoft") : (System.Windows.Media.Brush)FindResource("SidebarBackground");
         AboutButton.BorderBrush = section == "About" ? (System.Windows.Media.Brush)FindResource("AccentBorder") : (System.Windows.Media.Brush)FindResource("Line");
         PageScroll.ScrollToTop();
         if (section == "Languages") { RefreshDetectedLanguage(); PopulateLanguages(); }
@@ -367,7 +370,7 @@ public partial class SettingsWindow : Window
     {
         ShortcutRecorderBox.BorderBrush = (System.Windows.Media.Brush)FindResource("Line");
         ShortcutRecorderBox.BorderThickness = new Thickness(1);
-        ShortcutRecorderBox.Background = Brushes.White;
+        ShortcutRecorderBox.Background = (System.Windows.Media.Brush)FindResource("InputBackground");
         ShortcutIcon.Foreground = (System.Windows.Media.Brush)FindResource("Muted");
         RecordingDot.Visibility = Visibility.Collapsed;
         RecordingBadge.Visibility = Visibility.Collapsed;

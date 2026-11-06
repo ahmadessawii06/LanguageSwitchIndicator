@@ -27,7 +27,7 @@
         <Setter Property="Margin" Value="0,0,0,6" />
         <Setter Property="FontSize" Value="13" />
         <Setter Property="FontWeight" Value="SemiBold" />
-        <Setter Property="Foreground" Value="{StaticResource Ink}" />
+        <Setter Property="Foreground" Value="{DynamicResource Ink}" />
       </Style>
 
       <Style x:Key="Field" TargetType="StackPanel">
@@ -52,9 +52,9 @@
         <Setter Property="Cursor" Value="Hand" />
         <Setter Property="FocusVisualStyle" Value="{StaticResource KeyboardFocus}" />
         <Setter Property="Padding" Value="0" />
-        <Setter Property="Margin" Value="8" />
-        <Setter Property="Background" Value="{StaticResource MonitorButtonBg}" />
-        <Setter Property="BorderBrush" Value="{StaticResource MonitorButtonBorder}" />
+        <Setter Property="Margin" Value="6" />
+        <Setter Property="Background" Value="{DynamicResource MonitorButtonBg}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource MonitorButtonBorder}" />
         <Setter Property="BorderThickness" Value="1" />
         <Setter Property="Template">
           <Setter.Value>
@@ -63,16 +63,19 @@
                       Background="{TemplateBinding Background}"
                       BorderBrush="{TemplateBinding BorderBrush}"
                       BorderThickness="{TemplateBinding BorderThickness}"
-                      CornerRadius="8"
-                      Padding="9,5">
+                      CornerRadius="9"
+                      Width="46" Height="40">
+                <Border.Effect>
+                  <DropShadowEffect BlurRadius="6" ShadowDepth="2" Opacity="0.25" Color="#000000" />
+                </Border.Effect>
                 <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
               </Border>
               <ControlTemplate.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
-                  <Setter TargetName="Bd" Property="Opacity" Value="0.92" />
+                  <Setter TargetName="Bd" Property="Opacity" Value="0.95" />
                 </Trigger>
                 <Trigger Property="IsPressed" Value="True">
-                  <Setter TargetName="Bd" Property="Opacity" Value="0.75" />
+                  <Setter TargetName="Bd" Property="Opacity" Value="0.8" />
                 </Trigger>
               </ControlTemplate.Triggers>
             </ControlTemplate>
@@ -82,7 +85,7 @@
     </ResourceDictionary>
   </Window.Resources>
 
-  <Grid Background="{StaticResource Canvas}">
+  <Grid Background="{DynamicResource Canvas}">
     <Grid.ColumnDefinitions>
       <ColumnDefinition x:Name="SidebarColumn" Width="224" />
       <ColumnDefinition Width="*" />
@@ -91,7 +94,7 @@
     <!-- ===================================================================== -->
     <!-- SIDEBAR NAVIGATION                                                    -->
     <!-- ===================================================================== -->
-    <Border Background="#FFFFFF" BorderBrush="{StaticResource Line}" BorderThickness="0,0,1,0">
+    <Border Background="{DynamicResource SidebarBackground}" BorderBrush="{DynamicResource Line}" BorderThickness="0,0,1,0">
       <DockPanel Margin="14,20,14,16">
 
         <!-- App Branding Header -->
@@ -110,12 +113,12 @@
             </Border>
             <!-- Titles -->
             <StackPanel Grid.Column="1" Margin="10,0,0,0" VerticalAlignment="Center">
-              <TextBlock Text="Language Switch" FontSize="14" FontWeight="SemiBold" Foreground="{StaticResource Ink}" />
-              <TextBlock Text="Indicator" FontSize="11" Foreground="{StaticResource Muted}" Margin="0,1,0,0" />
+              <TextBlock Text="Language Switch" FontSize="14" FontWeight="SemiBold" Foreground="{DynamicResource Ink}" />
+              <TextBlock Text="Indicator" FontSize="11" Foreground="{DynamicResource Muted}" Margin="0,1,0,0" />
             </StackPanel>
           </Grid>
-          <Border Height="1" Background="{StaticResource LineSubtle}" Margin="0,14,0,10" />
-          <TextBlock Text="PREFERENCES" FontSize="10" FontWeight="SemiBold" Foreground="{StaticResource MutedLight}" Margin="4,0,0,0" />
+          <Border Height="1" Background="{DynamicResource LineSubtle}" Margin="0,14,0,10" />
+          <TextBlock Text="PREFERENCES" FontSize="10" FontWeight="SemiBold" Foreground="{DynamicResource MutedLight}" Margin="4,0,0,0" />
         </StackPanel>
 
         <!-- Sidebar Footer -->
@@ -132,13 +135,13 @@
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="*" />
               </Grid.ColumnDefinitions>
-              <ui:SymbolIcon Symbol="Person24" FontSize="17" Foreground="{StaticResource Muted}" Margin="0,0,10,0" VerticalAlignment="Center" />
+              <ui:SymbolIcon Symbol="Person24" FontSize="17" Foreground="{DynamicResource Muted}" Margin="0,0,10,0" VerticalAlignment="Center" />
               <TextBlock Grid.Column="1" Text="About &amp; Developer" FontSize="12.5" FontWeight="Medium" VerticalAlignment="Center" />
             </Grid>
           </Button>
 
           <!-- Live Status Card -->
-          <Border Background="{StaticResource AccentSoft}" BorderBrush="{StaticResource AccentBorder}" BorderThickness="1" CornerRadius="8" Padding="10,8" Margin="0,10,0,0">
+          <Border Background="{DynamicResource AccentSoft}" BorderBrush="{DynamicResource AccentBorder}" BorderThickness="1" CornerRadius="8" Padding="10,8" Margin="0,10,0,0">
             <Grid>
               <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
@@ -147,7 +150,7 @@
               <Border Width="7" Height="7" CornerRadius="3.5" Background="{StaticResource Accent}" VerticalAlignment="Center" Margin="0,0,8,0" />
               <StackPanel Grid.Column="1" VerticalAlignment="Center">
                 <TextBlock Text="{Binding Status}" FontSize="11.5" Foreground="{StaticResource Accent}" FontWeight="SemiBold" TextTrimming="CharacterEllipsis" />
-                <TextBlock Text="One indicator · Active screen" FontSize="10" Foreground="{StaticResource Muted}" Margin="0,1,0,0" />
+                <TextBlock Text="One indicator · Active screen" FontSize="10" Foreground="{DynamicResource Muted}" Margin="0,1,0,0" />
               </StackPanel>
             </Grid>
           </Border>
@@ -225,17 +228,17 @@
           <!-- Page Header & Breadcrumb -->
           <DockPanel Margin="0,0,0,6">
             <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-              <TextBlock Text="PREFERENCES" FontSize="10.5" FontWeight="SemiBold" Foreground="{StaticResource MutedLight}" />
-              <TextBlock Text="/" FontSize="10.5" Foreground="{StaticResource MutedLight}" Margin="6,0" />
+              <TextBlock Text="PREFERENCES" FontSize="10.5" FontWeight="SemiBold" Foreground="{DynamicResource MutedLight}" />
+              <TextBlock Text="/" FontSize="10.5" Foreground="{DynamicResource MutedLight}" Margin="6,0" />
               <TextBlock Text="DESKTOP" FontSize="10.5" FontWeight="SemiBold" Foreground="{StaticResource Accent}" />
             </StackPanel>
-            <Border DockPanel.Dock="Right" HorizontalAlignment="Right" Background="{StaticResource SurfaceSecondary}" CornerRadius="4" Padding="7,2">
-              <TextBlock Text="WINDOWS 11 / 10" FontSize="9.5" FontWeight="SemiBold" Foreground="{StaticResource Muted}" />
+            <Border DockPanel.Dock="Right" HorizontalAlignment="Right" Background="{DynamicResource SurfaceSecondary}" CornerRadius="4" Padding="7,2">
+              <TextBlock Text="WINDOWS 11 / 10" FontSize="9.5" FontWeight="SemiBold" Foreground="{DynamicResource Muted}" />
             </Border>
           </DockPanel>
 
-          <TextBlock x:Name="PageTitle" Text="General" FontSize="26" FontWeight="SemiBold" Foreground="{StaticResource Ink}" Margin="0,4,0,4" />
-          <TextBlock x:Name="PageDescription" Text="Your language, always in view. Make the indicator work your way." Foreground="{StaticResource Muted}" FontSize="13" Margin="0,0,0,22" LineHeight="19" />
+          <TextBlock x:Name="PageTitle" Text="General" FontSize="26" FontWeight="SemiBold" Foreground="{DynamicResource Ink}" Margin="0,4,0,4" />
+          <TextBlock x:Name="PageDescription" Text="Your language, always in view. Make the indicator work your way." Foreground="{DynamicResource Muted}" FontSize="13" Margin="0,0,0,22" LineHeight="19" />
 
           <!-- ================================================================= -->
           <!-- 1. GENERAL PAGE                                                   -->
@@ -277,13 +280,13 @@
                     <ColumnDefinition Width="Auto" />
                   </Grid.ColumnDefinitions>
                   <StackPanel VerticalAlignment="Center">
-                    <TextBlock Text="Enable indicator" FontWeight="SemiBold" FontSize="13.5" Foreground="{StaticResource Ink}" />
+                    <TextBlock Text="Enable indicator" FontWeight="SemiBold" FontSize="13.5" Foreground="{DynamicResource Ink}" />
                     <TextBlock Text="Show a language cue on screen during input changes." Style="{StaticResource Caption}" Margin="0,2,0,0" />
                   </StackPanel>
                   <ui:ToggleSwitch Grid.Column="1" IsChecked="{Binding Enabled}" AutomationProperties.Name="Enable indicator" />
                 </Grid>
 
-                <Border Height="1" Background="{StaticResource LineSubtle}" Margin="0,10,0,10" />
+                <Border Height="1" Background="{DynamicResource LineSubtle}" Margin="0,10,0,10" />
 
                 <Grid Style="{StaticResource SwitchRow}">
                   <Grid.ColumnDefinitions>
@@ -291,13 +294,13 @@
                     <ColumnDefinition Width="Auto" />
                   </Grid.ColumnDefinitions>
                   <StackPanel VerticalAlignment="Center">
-                    <TextBlock Text="Pause for now" FontWeight="SemiBold" FontSize="13.5" Foreground="{StaticResource Ink}" />
+                    <TextBlock Text="Pause for now" FontWeight="SemiBold" FontSize="13.5" Foreground="{DynamicResource Ink}" />
                     <TextBlock Text="Temporarily suppress popup cues while keeping your configuration." Style="{StaticResource Caption}" Margin="0,2,0,0" />
                   </StackPanel>
                   <ui:ToggleSwitch Grid.Column="1" IsChecked="{Binding IsPaused}" AutomationProperties.Name="Pause indicator" />
                 </Grid>
 
-                <Border Height="1" Background="{StaticResource LineSubtle}" Margin="0,10,0,10" />
+                <Border Height="1" Background="{DynamicResource LineSubtle}" Margin="0,10,0,10" />
 
                 <Grid Margin="0,4,0,2">
                   <Grid.ColumnDefinitions>
@@ -305,7 +308,7 @@
                     <ColumnDefinition Width="260" />
                   </Grid.ColumnDefinitions>
                   <StackPanel VerticalAlignment="Center" Margin="0,0,16,0">
-                    <TextBlock Text="Show the indicator when" FontWeight="SemiBold" FontSize="13.5" Foreground="{StaticResource Ink}" />
+                    <TextBlock Text="Show the indicator when" FontWeight="SemiBold" FontSize="13.5" Foreground="{DynamicResource Ink}" />
                     <TextBlock Text="Choose what trigger events trigger the language indicator." Style="{StaticResource Caption}" Margin="0,2,0,0" />
                   </StackPanel>
                   <ComboBox x:Name="TriggerChoice" Grid.Column="1" SelectedValuePath="Key" ItemTemplate="{StaticResource OptionLabel}" SelectedValue="{Binding TriggerMode}" AutomationProperties.Name="Popup trigger" />
@@ -323,13 +326,13 @@
                     <ColumnDefinition Width="Auto" />
                   </Grid.ColumnDefinitions>
                   <StackPanel VerticalAlignment="Center">
-                    <TextBlock Text="Launch with Windows" FontWeight="SemiBold" FontSize="13.5" Foreground="{StaticResource Ink}" />
+                    <TextBlock Text="Launch with Windows" FontWeight="SemiBold" FontSize="13.5" Foreground="{DynamicResource Ink}" />
                     <TextBlock Text="Start automatically in the background when you sign into Windows." Style="{StaticResource Caption}" Margin="0,2,0,0" />
                   </StackPanel>
                   <ui:ToggleSwitch Grid.Column="1" IsChecked="{Binding LaunchAtStartup, ValidatesOnExceptions=True}" AutomationProperties.Name="Launch with Windows" />
                 </Grid>
 
-                <Border Height="1" Background="{StaticResource LineSubtle}" Margin="0,10,0,10" />
+                <Border Height="1" Background="{DynamicResource LineSubtle}" Margin="0,10,0,10" />
 
                 <Grid Style="{StaticResource SwitchRow}">
                   <Grid.ColumnDefinitions>
@@ -337,7 +340,7 @@
                     <ColumnDefinition Width="Auto" />
                   </Grid.ColumnDefinitions>
                   <StackPanel VerticalAlignment="Center">
-                    <TextBlock Text="Start minimized to tray" FontWeight="SemiBold" FontSize="13.5" Foreground="{StaticResource Ink}" />
+                    <TextBlock Text="Start minimized to tray" FontWeight="SemiBold" FontSize="13.5" Foreground="{DynamicResource Ink}" />
                     <TextBlock Text="Launch silently into the taskbar notification tray without opening settings." Style="{StaticResource Caption}" Margin="0,2,0,0" />
                   </StackPanel>
                   <ui:ToggleSwitch Grid.Column="1" IsChecked="{Binding StartMinimized}" AutomationProperties.Name="Start in the tray" />
@@ -363,8 +366,17 @@
               <!-- Editor Panel -->
               <Border x:Name="AppearanceEditor" Style="{StaticResource Surface}">
                 <StackPanel>
-                  <TextBlock Text="Visual Styling" FontSize="16" FontWeight="SemiBold" Foreground="{StaticResource Ink}" />
-                  <TextBlock Text="Fine-tune how the indicator looks. Changes are saved automatically." Style="{StaticResource Caption}" Margin="0,2,0,18" />
+                  <TextBlock Text="Visual Styling" FontSize="16" FontWeight="SemiBold" Foreground="{DynamicResource Ink}" />
+                  <TextBlock Text="Fine-tune how the application and indicator look. Changes are saved automatically." Style="{StaticResource Caption}" Margin="0,2,0,18" />
+
+                  <!-- Settings Window Theme -->
+                  <StackPanel Style="{StaticResource Field}">
+                    <TextBlock Text="Settings window theme" Style="{StaticResource FieldLabel}" />
+                    <ComboBox x:Name="AppThemeChoice" SelectedItem="{Binding AppTheme}" AutomationProperties.Name="Settings window theme" />
+                    <TextBlock Text="Choose between clean light mode, immersive dark mode, or follow Windows." Style="{StaticResource Caption}" Margin="0,4,0,0" />
+                  </StackPanel>
+
+                  <Border Height="1" Background="{DynamicResource LineSubtle}" Margin="0,4,0,16" />
 
                   <!-- Indicator Size -->
                   <StackPanel Style="{StaticResource Field}">
@@ -374,7 +386,7 @@
 
                   <!-- Theme -->
                   <StackPanel Style="{StaticResource Field}">
-                    <TextBlock Text="Color mode" Style="{StaticResource FieldLabel}" />
+                    <TextBlock Text="Indicator popup theme" Style="{StaticResource FieldLabel}" />
                     <ComboBox x:Name="ThemeChoice" SelectedItem="{Binding Theme}" AutomationProperties.Name="Color mode" />
                   </StackPanel>
 
@@ -395,7 +407,7 @@
                     </StackPanel>
                   </Grid>
 
-                  <Border Height="1" Background="{StaticResource LineSubtle}" Margin="0,4,0,14" />
+                  <Border Height="1" Background="{DynamicResource LineSubtle}" Margin="0,4,0,14" />
 
                   <!-- Custom Colors -->
                   <Grid Margin="0,0,0,14">
@@ -404,7 +416,7 @@
                       <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
                     <StackPanel VerticalAlignment="Center">
-                      <TextBlock Text="Custom colors" FontWeight="SemiBold" FontSize="13.5" Foreground="{StaticResource Ink}" />
+                      <TextBlock Text="Custom colors" FontWeight="SemiBold" FontSize="13.5" Foreground="{DynamicResource Ink}" />
                       <TextBlock Text="Override the default dark/light theme palette." Style="{StaticResource Caption}" Margin="0,2,0,0" />
                     </StackPanel>
                     <ui:ToggleSwitch Grid.Column="1" IsChecked="{Binding UseCustomColors}" AutomationProperties.Name="Use custom colors" />
@@ -474,7 +486,7 @@
 
               <!-- Live Preview Panel -->
               <StackPanel x:Name="PreviewPanel" Grid.Column="1" Margin="20,0,0,0">
-                <Border Background="#FFFFFF" BorderBrush="{StaticResource Line}" BorderThickness="1" CornerRadius="14" Padding="18">
+                <Border Background="{DynamicResource SurfaceBrush}" BorderBrush="{DynamicResource Line}" BorderThickness="1" CornerRadius="14" Padding="18">
                   <Border.Effect>
                     <DropShadowEffect BlurRadius="14" ShadowDepth="4" Opacity="0.05" Color="#000000" />
                   </Border.Effect>
@@ -485,21 +497,21 @@
                         <Border Width="8" Height="8" CornerRadius="4" Background="#CBD5E1" Margin="0,0,5,0" />
                         <Border Width="8" Height="8" CornerRadius="4" Background="#E2E8F0" Margin="0,0,5,0" />
                         <Border Width="8" Height="8" CornerRadius="4" Background="#E2E8F0" Margin="0,0,10,0" />
-                        <TextBlock Text="LIVE WORKSPACE PREVIEW" FontSize="10" FontWeight="SemiBold" Foreground="{StaticResource Muted}" />
+                        <TextBlock Text="LIVE WORKSPACE PREVIEW" FontSize="10" FontWeight="SemiBold" Foreground="{DynamicResource Muted}" />
                       </StackPanel>
-                      <Border DockPanel.Dock="Right" HorizontalAlignment="Right" Background="{StaticResource AccentSoft}" CornerRadius="4" Padding="6,2">
+                      <Border DockPanel.Dock="Right" HorizontalAlignment="Right" Background="{DynamicResource AccentSoft}" CornerRadius="4" Padding="6,2">
                         <TextBlock Text="REALTIME" FontSize="9.5" FontWeight="Bold" Foreground="{StaticResource Accent}" />
                       </Border>
                     </DockPanel>
 
                     <!-- Preview Stage -->
-                    <Border CornerRadius="10" Background="{StaticResource Canvas}" BorderBrush="{StaticResource Line}" BorderThickness="1" Padding="14">
+                    <Border CornerRadius="10" Background="{DynamicResource Canvas}" BorderBrush="{DynamicResource Line}" BorderThickness="1" Padding="14">
                       <Grid MinHeight="260">
                         <StackPanel VerticalAlignment="Top">
                           <Border Height="4" Width="48" Background="#E2E8F0" HorizontalAlignment="Left" CornerRadius="2" Margin="0,0,0,12" />
-                          <TextBlock Text="Active Editor Window" FontWeight="SemiBold" FontSize="13" Foreground="{StaticResource Ink}" />
-                          <TextBlock Text="Testing keyboard language switch visual..." FontSize="11.5" Foreground="{StaticResource Muted}" Margin="0,2,0,0" />
-                          <Border Background="{StaticResource LineSubtle}" Height="1" Margin="0,12,0,0" />
+                          <TextBlock Text="Active Editor Window" FontWeight="SemiBold" FontSize="13" Foreground="{DynamicResource Ink}" />
+                          <TextBlock Text="Testing keyboard language switch visual..." FontSize="11.5" Foreground="{DynamicResource Muted}" Margin="0,2,0,0" />
+                          <Border Background="{DynamicResource LineSubtle}" Height="1" Margin="0,12,0,0" />
                         </StackPanel>
 
                         <Viewbox MaxWidth="280" MaxHeight="210" StretchDirection="DownOnly" VerticalAlignment="Bottom" HorizontalAlignment="Center">
@@ -531,10 +543,10 @@
               <StackPanel>
                 <DockPanel Margin="0,0,0,16">
                   <StackPanel VerticalAlignment="Center">
-                    <TextBlock Text="Interactive Screen Placement" FontSize="16" FontWeight="SemiBold" Foreground="{StaticResource Ink}" />
+                    <TextBlock Text="Interactive Screen Placement" FontSize="16" FontWeight="SemiBold" Foreground="{DynamicResource Ink}" />
                     <TextBlock Text="Click a screen zone on the monitor below to anchor the indicator." Style="{StaticResource Caption}" Margin="0,2,0,0" />
                   </StackPanel>
-                  <Border DockPanel.Dock="Right" HorizontalAlignment="Right" Background="{StaticResource AccentSoft}" CornerRadius="6" Padding="8,4">
+                  <Border DockPanel.Dock="Right" HorizontalAlignment="Right" Background="{DynamicResource AccentSoft}" CornerRadius="6" Padding="8,4">
                     <TextBlock Text="ACTIVE DISPLAY" FontSize="10" FontWeight="Bold" Foreground="{StaticResource Accent}" />
                   </Border>
                 </DockPanel>
@@ -598,53 +610,53 @@
 
                             <!-- Row 0: Top Left, Top Center, Top Right -->
                             <Button Tag="TopLeft" Grid.Row="0" Grid.Column="0" Click="PositionClicked" Style="{StaticResource MonitorPosBtn}" HorizontalAlignment="Left" VerticalAlignment="Top" ToolTip="Top left" AutomationProperties.Name="Top left">
-                              <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                                <ui:SymbolIcon Symbol="Keyboard24" FontSize="12" Foreground="White" Margin="0,0,4,0" VerticalAlignment="Center" />
-                                <TextBlock Text="EN" FontSize="9.5" FontWeight="Bold" Foreground="White" VerticalAlignment="Center" />
+                              <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <ui:SymbolIcon Symbol="Keyboard24" FontSize="16" Foreground="White" HorizontalAlignment="Center" />
+                                <TextBlock Text="EN" FontSize="8.5" FontWeight="Bold" Foreground="White" HorizontalAlignment="Center" Margin="0,1,0,0" />
                               </StackPanel>
                             </Button>
 
                             <Button Tag="TopCenter" Grid.Row="0" Grid.Column="1" Click="PositionClicked" Style="{StaticResource MonitorPosBtn}" HorizontalAlignment="Center" VerticalAlignment="Top" ToolTip="Top center" AutomationProperties.Name="Top center">
-                              <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                                <ui:SymbolIcon Symbol="Keyboard24" FontSize="12" Foreground="White" Margin="0,0,4,0" VerticalAlignment="Center" />
-                                <TextBlock Text="EN" FontSize="9.5" FontWeight="Bold" Foreground="White" VerticalAlignment="Center" />
+                              <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <ui:SymbolIcon Symbol="Keyboard24" FontSize="16" Foreground="White" HorizontalAlignment="Center" />
+                                <TextBlock Text="EN" FontSize="8.5" FontWeight="Bold" Foreground="White" HorizontalAlignment="Center" Margin="0,1,0,0" />
                               </StackPanel>
                             </Button>
 
                             <Button Tag="TopRight" Grid.Row="0" Grid.Column="2" Click="PositionClicked" Style="{StaticResource MonitorPosBtn}" HorizontalAlignment="Right" VerticalAlignment="Top" ToolTip="Top right" AutomationProperties.Name="Top right">
-                              <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                                <ui:SymbolIcon Symbol="Keyboard24" FontSize="12" Foreground="White" Margin="0,0,4,0" VerticalAlignment="Center" />
-                                <TextBlock Text="EN" FontSize="9.5" FontWeight="Bold" Foreground="White" VerticalAlignment="Center" />
+                              <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <ui:SymbolIcon Symbol="Keyboard24" FontSize="16" Foreground="White" HorizontalAlignment="Center" />
+                                <TextBlock Text="EN" FontSize="8.5" FontWeight="Bold" Foreground="White" HorizontalAlignment="Center" Margin="0,1,0,0" />
                               </StackPanel>
                             </Button>
 
                             <!-- Row 1: Center -->
                             <Button Tag="Center" Grid.Row="1" Grid.Column="1" Click="PositionClicked" Style="{StaticResource MonitorPosBtn}" HorizontalAlignment="Center" VerticalAlignment="Center" ToolTip="Center" AutomationProperties.Name="Center">
-                              <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                                <ui:SymbolIcon Symbol="Keyboard24" FontSize="12" Foreground="White" Margin="0,0,4,0" VerticalAlignment="Center" />
-                                <TextBlock Text="EN" FontSize="9.5" FontWeight="Bold" Foreground="White" VerticalAlignment="Center" />
+                              <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <ui:SymbolIcon Symbol="Keyboard24" FontSize="16" Foreground="White" HorizontalAlignment="Center" />
+                                <TextBlock Text="EN" FontSize="8.5" FontWeight="Bold" Foreground="White" HorizontalAlignment="Center" Margin="0,1,0,0" />
                               </StackPanel>
                             </Button>
 
                             <!-- Row 2: Bottom Left, Bottom Center, Bottom Right -->
                             <Button Tag="BottomLeft" Grid.Row="2" Grid.Column="0" Click="PositionClicked" Style="{StaticResource MonitorPosBtn}" HorizontalAlignment="Left" VerticalAlignment="Bottom" ToolTip="Bottom left" AutomationProperties.Name="Bottom left">
-                              <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                                <ui:SymbolIcon Symbol="Keyboard24" FontSize="12" Foreground="White" Margin="0,0,4,0" VerticalAlignment="Center" />
-                                <TextBlock Text="EN" FontSize="9.5" FontWeight="Bold" Foreground="White" VerticalAlignment="Center" />
+                              <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <ui:SymbolIcon Symbol="Keyboard24" FontSize="16" Foreground="White" HorizontalAlignment="Center" />
+                                <TextBlock Text="EN" FontSize="8.5" FontWeight="Bold" Foreground="White" HorizontalAlignment="Center" Margin="0,1,0,0" />
                               </StackPanel>
                             </Button>
 
                             <Button Tag="BottomCenter" Grid.Row="2" Grid.Column="1" Click="PositionClicked" Style="{StaticResource MonitorPosBtn}" HorizontalAlignment="Center" VerticalAlignment="Bottom" ToolTip="Bottom center" AutomationProperties.Name="Bottom center">
-                              <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                                <ui:SymbolIcon Symbol="Keyboard24" FontSize="12" Foreground="White" Margin="0,0,4,0" VerticalAlignment="Center" />
-                                <TextBlock Text="EN" FontSize="9.5" FontWeight="Bold" Foreground="White" VerticalAlignment="Center" />
+                              <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <ui:SymbolIcon Symbol="Keyboard24" FontSize="16" Foreground="White" HorizontalAlignment="Center" />
+                                <TextBlock Text="EN" FontSize="8.5" FontWeight="Bold" Foreground="White" HorizontalAlignment="Center" Margin="0,1,0,0" />
                               </StackPanel>
                             </Button>
 
                             <Button Tag="BottomRight" Grid.Row="2" Grid.Column="2" Click="PositionClicked" Style="{StaticResource MonitorPosBtn}" HorizontalAlignment="Right" VerticalAlignment="Bottom" ToolTip="Bottom right" AutomationProperties.Name="Bottom right">
-                              <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                                <ui:SymbolIcon Symbol="Keyboard24" FontSize="12" Foreground="White" Margin="0,0,4,0" VerticalAlignment="Center" />
-                                <TextBlock Text="EN" FontSize="9.5" FontWeight="Bold" Foreground="White" VerticalAlignment="Center" />
+                              <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <ui:SymbolIcon Symbol="Keyboard24" FontSize="16" Foreground="White" HorizontalAlignment="Center" />
+                                <TextBlock Text="EN" FontSize="8.5" FontWeight="Bold" Foreground="White" HorizontalAlignment="Center" Margin="0,1,0,0" />
                               </StackPanel>
                             </Button>
                           </Grid>
@@ -679,13 +691,13 @@
                     <ColumnDefinition Width="280" />
                   </Grid.ColumnDefinitions>
                   <StackPanel VerticalAlignment="Center" Margin="0,0,16,0">
-                    <TextBlock Text="Placement mode" FontWeight="SemiBold" FontSize="13.5" Foreground="{StaticResource Ink}" />
+                    <TextBlock Text="Placement mode" FontWeight="SemiBold" FontSize="13.5" Foreground="{DynamicResource Ink}" />
                     <TextBlock Text="Synchronized with screen selector. Includes dynamic caret positioning." Style="{StaticResource Caption}" Margin="0,2,0,0" />
                   </StackPanel>
                   <ComboBox x:Name="PlacementChoice" Grid.Column="1" SelectedValuePath="Key" ItemTemplate="{StaticResource OptionLabel}" SelectedValue="{Binding Placement}" AutomationProperties.Name="Indicator placement" />
                 </Grid>
 
-                <Border Height="1" Background="{StaticResource LineSubtle}" Margin="0,0,0,16" />
+                <Border Height="1" Background="{DynamicResource LineSubtle}" Margin="0,0,0,16" />
 
                 <!-- Action Row -->
                 <Grid>
@@ -694,7 +706,7 @@
                     <ColumnDefinition Width="Auto" />
                   </Grid.ColumnDefinitions>
                   <StackPanel VerticalAlignment="Center" Margin="0,0,16,0">
-                    <TextBlock Text="Test on active display" FontWeight="SemiBold" FontSize="13.5" Foreground="{StaticResource Ink}" />
+                    <TextBlock Text="Test on active display" FontWeight="SemiBold" FontSize="13.5" Foreground="{DynamicResource Ink}" />
                     <TextBlock Text="Flashes the real floating indicator at the chosen position without switching keyboards." Style="{StaticResource Caption}" Margin="0,2,0,0" />
                   </StackPanel>
                   <Button Grid.Column="1" Click="PopupPreviewClicked" Style="{StaticResource Primary}" Padding="16,9" AutomationProperties.Name="Preview on this screen">
@@ -716,7 +728,7 @@
             <Border Style="{StaticResource Surface}" Margin="0,0,0,16">
               <StackPanel>
                 <DockPanel Margin="0,0,0,12">
-                  <TextBlock Text="Motion Preview Stage" FontSize="16" FontWeight="SemiBold" Foreground="{StaticResource Ink}" />
+                  <TextBlock Text="Motion Preview Stage" FontSize="16" FontWeight="SemiBold" Foreground="{DynamicResource Ink}" />
                   <Button DockPanel.Dock="Right" HorizontalAlignment="Right" Click="PlayAnimationClicked" Style="{StaticResource Primary}" Padding="14,7" AutomationProperties.Name="Play animation">
                     <StackPanel Orientation="Horizontal">
                       <ui:SymbolIcon Symbol="Flash24" FontSize="15" Margin="0,0,6,0" VerticalAlignment="Center" />
@@ -726,7 +738,7 @@
                 </DockPanel>
 
                 <!-- Stage Canvas -->
-                <Border CornerRadius="10" Background="{StaticResource Canvas}" BorderBrush="{StaticResource Line}" BorderThickness="1" Padding="14">
+                <Border CornerRadius="10" Background="{DynamicResource Canvas}" BorderBrush="{DynamicResource Line}" BorderThickness="1" Padding="14">
                   <Viewbox Height="180" StretchDirection="DownOnly">
                     <local:IndicatorView x:Name="MotionIndicator" />
                   </Viewbox>
@@ -737,7 +749,7 @@
             <!-- Timing & Preset Card -->
             <Border Style="{StaticResource Surface}">
               <StackPanel>
-                <TextBlock Text="Animation Dynamics" FontSize="15" FontWeight="SemiBold" Foreground="{StaticResource Ink}" Margin="0,0,0,14" />
+                <TextBlock Text="Animation Dynamics" FontSize="15" FontWeight="SemiBold" Foreground="{DynamicResource Ink}" Margin="0,0,0,14" />
 
                 <!-- Presets & Style -->
                 <Grid Margin="0,0,0,14">
@@ -785,7 +797,7 @@
                   <TextBox Text="{Binding AnimationSpeed, ValidatesOnExceptions=True}" AutomationProperties.Name="Animation speed" />
                 </StackPanel>
 
-                <Border Height="1" Background="{StaticResource LineSubtle}" Margin="0,6,0,12" />
+                <Border Height="1" Background="{DynamicResource LineSubtle}" Margin="0,6,0,12" />
 
                 <!-- Reduce Motion Accessibility Row -->
                 <Grid Style="{StaticResource SwitchRow}">
@@ -794,7 +806,7 @@
                     <ColumnDefinition Width="Auto" />
                   </Grid.ColumnDefinitions>
                   <StackPanel VerticalAlignment="Center">
-                    <TextBlock Text="Reduce motion" FontWeight="SemiBold" FontSize="13.5" Foreground="{StaticResource Ink}" />
+                    <TextBlock Text="Reduce motion" FontWeight="SemiBold" FontSize="13.5" Foreground="{DynamicResource Ink}" />
                     <TextBlock Text="Use an instant transition without fade or scaling. System preferences are respected." Style="{StaticResource Caption}" Margin="0,2,0,0" />
                   </StackPanel>
                   <ui:ToggleSwitch Grid.Column="1" IsChecked="{Binding ReduceMotion}" AutomationProperties.Name="Reduce motion" />
@@ -831,12 +843,12 @@
             <!-- Language List Card -->
             <Border Style="{StaticResource Surface}">
               <StackPanel>
-                <TextBlock Text="Installed Keyboard Layouts" FontSize="15" FontWeight="SemiBold" Foreground="{StaticResource Ink}" />
+                <TextBlock Text="Installed Keyboard Layouts" FontSize="15" FontWeight="SemiBold" Foreground="{DynamicResource Ink}" />
                 <TextBlock Text="Select a language below to customize its display badge." Style="{StaticResource Caption}" Margin="0,2,0,14" />
 
                 <ListBox x:Name="LanguageList" DisplayMemberPath="Label" SelectionChanged="LanguageSelected" MinHeight="110" AutomationProperties.Name="Keyboard languages" />
 
-                <Border Height="1" Background="{StaticResource LineSubtle}" Margin="0,16,0,14" />
+                <Border Height="1" Background="{DynamicResource LineSubtle}" Margin="0,16,0,14" />
 
                 <!-- Label Editor -->
                 <StackPanel Style="{StaticResource Field}">
@@ -888,13 +900,13 @@
                     <ColumnDefinition Width="Auto" />
                   </Grid.ColumnDefinitions>
                   <StackPanel VerticalAlignment="Center">
-                    <TextBlock Text="Enable typing layout correction" FontWeight="SemiBold" FontSize="13.5" Foreground="{StaticResource Ink}" />
+                    <TextBlock Text="Enable typing layout correction" FontWeight="SemiBold" FontSize="13.5" Foreground="{DynamicResource Ink}" />
                     <TextBlock Text="Runs system-wide from the tray, even when settings are closed." Style="{StaticResource Caption}" Margin="0,2,0,0" />
                   </StackPanel>
                   <ui:ToggleSwitch x:Name="CorrectionEnabledSwitch" Grid.Column="1" Click="CorrectionEnabledClicked" AutomationProperties.Name="Enable typing correction" />
                 </Grid>
 
-                <Border Height="1" Background="{StaticResource LineSubtle}" Margin="0,12,0,14" />
+                <Border Height="1" Background="{DynamicResource LineSubtle}" Margin="0,12,0,14" />
 
                 <!-- Global Shortcut Recorder -->
                 <StackPanel Style="{StaticResource Field}">
@@ -906,8 +918,8 @@
                     </Grid.ColumnDefinitions>
 
                     <Border x:Name="ShortcutRecorderBox"
-                            Background="#FFFFFF"
-                            BorderBrush="{StaticResource Line}"
+                            Background="{DynamicResource InputBackground}"
+                            BorderBrush="{DynamicResource Line}"
                             BorderThickness="1"
                             CornerRadius="8"
                             Padding="14,10"
@@ -930,7 +942,7 @@
                                 Visibility="Collapsed" />
                         <Border x:Name="RecordingBadge"
                                 DockPanel.Dock="Right"
-                                Background="{StaticResource AccentSoft}"
+                                Background="{DynamicResource AccentSoft}"
                                 CornerRadius="4"
                                 Padding="8,2"
                                 VerticalAlignment="Center"
@@ -939,12 +951,12 @@
                           <TextBlock Text="Recording · Esc to cancel" FontSize="11" FontWeight="SemiBold" Foreground="{StaticResource Accent}" />
                         </Border>
                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                          <ui:SymbolIcon x:Name="ShortcutIcon" Symbol="Keyboard24" FontSize="18" Foreground="{StaticResource Muted}" Margin="0,0,10,0" VerticalAlignment="Center" />
+                          <ui:SymbolIcon x:Name="ShortcutIcon" Symbol="Keyboard24" FontSize="18" Foreground="{DynamicResource Muted}" Margin="0,0,10,0" VerticalAlignment="Center" />
                           <TextBlock x:Name="ShortcutDisplay"
                                      Text="F8"
                                      FontSize="14"
                                      FontWeight="SemiBold"
-                                     Foreground="{StaticResource Ink}"
+                                     Foreground="{DynamicResource Ink}"
                                      VerticalAlignment="Center" />
                         </StackPanel>
                       </DockPanel>
@@ -960,10 +972,10 @@
                             AutomationProperties.Name="Reset shortcut to default" />
                   </Grid>
                   <TextBlock x:Name="CorrectionShortcutStatus" Style="{StaticResource Caption}" Margin="0,2,0,0" />
-                  <TextBlock x:Name="ShortcutHelpText" Text="Click the box and press your shortcut. Supports single function keys (e.g. F8), or combinations with Ctrl, Alt, Shift, and Win." Style="{StaticResource Caption}" Foreground="{StaticResource Muted}" Margin="0,4,0,0" />
+                  <TextBlock x:Name="ShortcutHelpText" Text="Click the box and press your shortcut. Supports single function keys (e.g. F8), or combinations with Ctrl, Alt, Shift, and Win." Style="{StaticResource Caption}" Foreground="{DynamicResource Muted}" Margin="0,4,0,0" />
                 </StackPanel>
 
-                <Border Height="1" Background="{StaticResource LineSubtle}" Margin="0,6,0,14" />
+                <Border Height="1" Background="{DynamicResource LineSubtle}" Margin="0,6,0,14" />
 
                 <!-- Layout Pair -->
                 <Grid Margin="0,0,0,14">
@@ -972,10 +984,10 @@
                     <ColumnDefinition Width="Auto" />
                   </Grid.ColumnDefinitions>
                   <StackPanel VerticalAlignment="Center">
-                    <TextBlock Text="Supported language pair" FontWeight="SemiBold" FontSize="13.5" Foreground="{StaticResource Ink}" />
+                    <TextBlock Text="Supported language pair" FontWeight="SemiBold" FontSize="13.5" Foreground="{DynamicResource Ink}" />
                     <TextBlock Text="Converts between English and Arabic phonetic key mappings." Style="{StaticResource Caption}" Margin="0,2,0,0" />
                   </StackPanel>
-                  <Border Grid.Column="1" Background="{StaticResource AccentSoft}" BorderBrush="{StaticResource AccentBorder}" BorderThickness="1" CornerRadius="6" Padding="10,4">
+                  <Border Grid.Column="1" Background="{DynamicResource AccentSoft}" BorderBrush="{DynamicResource AccentBorder}" BorderThickness="1" CornerRadius="6" Padding="10,4">
                     <TextBlock Text="English (US) ↔ Arabic (101)" FontSize="12" FontWeight="SemiBold" Foreground="{StaticResource Accent}" />
                   </Border>
                 </Grid>
@@ -987,7 +999,7 @@
                   <TextBlock Text="Auto refuses mixed English/Arabic text. Choose a direction explicitly to correct mixed text." Style="{StaticResource Caption}" Margin="0,6,0,0" />
                 </StackPanel>
 
-                <Border Height="1" Background="{StaticResource LineSubtle}" Margin="0,6,0,14" />
+                <Border Height="1" Background="{DynamicResource LineSubtle}" Margin="0,6,0,14" />
 
                 <!-- Switch keyboard after correction -->
                 <Grid Style="{StaticResource SwitchRow}">
@@ -996,7 +1008,7 @@
                     <ColumnDefinition Width="Auto" />
                   </Grid.ColumnDefinitions>
                   <StackPanel VerticalAlignment="Center">
-                    <TextBlock Text="Switch keyboard layout after correction" FontWeight="SemiBold" FontSize="13.5" Foreground="{StaticResource Ink}" />
+                    <TextBlock Text="Switch keyboard layout after correction" FontWeight="SemiBold" FontSize="13.5" Foreground="{DynamicResource Ink}" />
                     <TextBlock Text="Automatically aligns your active Windows keyboard with the converted language." Style="{StaticResource Caption}" Margin="0,2,0,0" />
                   </StackPanel>
                   <ui:ToggleSwitch Grid.Column="1" IsChecked="{Binding SwitchLayoutAfterCorrection}" AutomationProperties.Name="Switch keyboard after correction" />
@@ -1020,7 +1032,7 @@
           <!-- 7. ADVANCED PAGE                                                  -->
           <!-- ================================================================= -->
           <StackPanel x:Name="AdvancedPage" Visibility="Collapsed">
-            <Border Background="{StaticResource AccentSoft}" BorderBrush="{StaticResource AccentBorder}" BorderThickness="1" CornerRadius="10" Padding="14,12" Margin="0,0,0,16">
+            <Border Background="{DynamicResource AccentSoft}" BorderBrush="{DynamicResource AccentBorder}" BorderThickness="1" CornerRadius="10" Padding="14,12" Margin="0,0,0,16">
               <TextBlock Text="Advanced parameters for troubleshooting and specific desktop setups. Recommended defaults are pre-configured." FontSize="12.5" Foreground="{StaticResource Accent}" />
             </Border>
 
@@ -1033,13 +1045,13 @@
                     <ColumnDefinition Width="Auto" />
                   </Grid.ColumnDefinitions>
                   <StackPanel VerticalAlignment="Center">
-                    <TextBlock Text="Language variant changes" FontWeight="SemiBold" FontSize="13.5" Foreground="{StaticResource Ink}" />
+                    <TextBlock Text="Language variant changes" FontWeight="SemiBold" FontSize="13.5" Foreground="{DynamicResource Ink}" />
                     <TextBlock Text="Show indicator popup when switching between regional dialects of the same language." Style="{StaticResource Caption}" Margin="0,2,0,0" />
                   </StackPanel>
                   <ui:ToggleSwitch Grid.Column="1" IsChecked="{Binding ShowOnVariantChange}" AutomationProperties.Name="Show on language variant changes" />
                 </Grid>
 
-                <Border Height="1" Background="{StaticResource LineSubtle}" Margin="0,10,0,10" />
+                <Border Height="1" Background="{DynamicResource LineSubtle}" Margin="0,10,0,10" />
 
                 <Grid Style="{StaticResource SwitchRow}">
                   <Grid.ColumnDefinitions>
@@ -1047,7 +1059,7 @@
                     <ColumnDefinition Width="Auto" />
                   </Grid.ColumnDefinitions>
                   <StackPanel VerticalAlignment="Center">
-                    <TextBlock Text="Show on focus changes" FontWeight="SemiBold" FontSize="13.5" Foreground="{StaticResource Ink}" />
+                    <TextBlock Text="Show on focus changes" FontWeight="SemiBold" FontSize="13.5" Foreground="{DynamicResource Ink}" />
                     <TextBlock Text="Briefly trigger a cue when entering a new text input field." Style="{StaticResource Caption}" Margin="0,2,0,0" />
                   </StackPanel>
                   <ui:ToggleSwitch Grid.Column="1" IsChecked="{Binding ShowPopupOnFocusChange}" AutomationProperties.Name="Show on focus changes" />
@@ -1064,13 +1076,13 @@
                     <ColumnDefinition Width="Auto" />
                   </Grid.ColumnDefinitions>
                   <StackPanel VerticalAlignment="Center">
-                    <TextBlock Text="Debug event logging" FontWeight="SemiBold" FontSize="13.5" Foreground="{StaticResource Ink}" />
+                    <TextBlock Text="Debug event logging" FontWeight="SemiBold" FontSize="13.5" Foreground="{DynamicResource Ink}" />
                     <TextBlock Text="Record indicator timing and window lifecycle events locally. Keystrokes are never logged." Style="{StaticResource Caption}" Margin="0,2,0,0" />
                   </StackPanel>
                   <ui:ToggleSwitch Grid.Column="1" IsChecked="{Binding DebugLogging}" AutomationProperties.Name="Enable debug logging" />
                 </Grid>
 
-                <Border Height="1" Background="{StaticResource LineSubtle}" Margin="0,10,0,12" />
+                <Border Height="1" Background="{DynamicResource LineSubtle}" Margin="0,10,0,12" />
 
                 <Grid>
                   <Grid.ColumnDefinitions>
@@ -1078,7 +1090,7 @@
                     <ColumnDefinition Width="Auto" />
                   </Grid.ColumnDefinitions>
                   <StackPanel VerticalAlignment="Center" Margin="0,0,16,0">
-                    <TextBlock Text="Application data folder" FontWeight="SemiBold" FontSize="13.5" Foreground="{StaticResource Ink}" />
+                    <TextBlock Text="Application data folder" FontWeight="SemiBold" FontSize="13.5" Foreground="{DynamicResource Ink}" />
                     <TextBlock Text="Configuration files and offline profile caches are stored in your Windows AppData folder." Style="{StaticResource Caption}" Margin="0,2,0,0" />
                   </StackPanel>
                   <Button Content="Open data folder" Click="OpenDataClicked" Style="{StaticResource Action}" Grid.Column="1" AutomationProperties.Name="Open data folder" />
@@ -1102,7 +1114,7 @@
 
                   <!-- Circular avatar with AE fallback -->
                   <Grid Width="96" Height="96" VerticalAlignment="Top" Margin="0,0,22,0">
-                    <Border CornerRadius="48" Background="{StaticResource AccentSoft}" BorderBrush="{StaticResource Line}" BorderThickness="1.5">
+                    <Border CornerRadius="48" Background="{DynamicResource AccentSoft}" BorderBrush="{DynamicResource Line}" BorderThickness="1.5">
                       <TextBlock Text="AE" FontSize="28" FontWeight="Bold" Foreground="{StaticResource Accent}" HorizontalAlignment="Center" VerticalAlignment="Center" />
                     </Border>
                     <Border CornerRadius="48">
@@ -1116,26 +1128,26 @@
                   <!-- Developer Details -->
                   <StackPanel Grid.Column="1" VerticalAlignment="Center">
                     <WrapPanel VerticalAlignment="Center" Margin="0,0,0,4">
-                      <TextBlock x:Name="DeveloperName" Text="Ahmad Essawii." FontSize="22" FontWeight="SemiBold" Foreground="{StaticResource Ink}" Margin="0,0,10,0" VerticalAlignment="Center" />
-                      <Border Background="{StaticResource AccentSoft}" BorderBrush="{StaticResource AccentBorder}" BorderThickness="1" CornerRadius="6" Padding="8,2" VerticalAlignment="Center">
+                      <TextBlock x:Name="DeveloperName" Text="Ahmad Essawii." FontSize="22" FontWeight="SemiBold" Foreground="{DynamicResource Ink}" Margin="0,0,10,0" VerticalAlignment="Center" />
+                      <Border Background="{DynamicResource AccentSoft}" BorderBrush="{DynamicResource AccentBorder}" BorderThickness="1" CornerRadius="6" Padding="8,2" VerticalAlignment="Center">
                         <TextBlock Text="Developer" FontSize="11" FontWeight="SemiBold" Foreground="{StaticResource Accent}" />
                       </Border>
                     </WrapPanel>
 
-                    <TextBlock x:Name="DeveloperUsername" Text="@ahmadessawii06" FontSize="13" Foreground="{StaticResource Muted}" Margin="0,0,0,8" />
-                    <TextBlock x:Name="DeveloperBio" Text="NNU - CAP , Senior C++ Developer." FontSize="13" Foreground="{StaticResource InkSecondary}" LineHeight="19" TextWrapping="Wrap" Margin="0,0,0,10" />
+                    <TextBlock x:Name="DeveloperUsername" Text="@ahmadessawii06" FontSize="13" Foreground="{DynamicResource Muted}" Margin="0,0,0,8" />
+                    <TextBlock x:Name="DeveloperBio" Text="NNU - CAP , Senior C++ Developer." FontSize="13" Foreground="{DynamicResource InkSecondary}" LineHeight="19" TextWrapping="Wrap" Margin="0,0,0,10" />
 
                     <WrapPanel x:Name="DeveloperMetaPanel">
-                      <Border x:Name="CompanyTag" Background="{StaticResource Canvas}" BorderBrush="{StaticResource Line}" BorderThickness="1" CornerRadius="6" Padding="8,4" Margin="0,0,8,6">
+                      <Border x:Name="CompanyTag" Background="{DynamicResource SurfaceSecondary}" BorderBrush="{DynamicResource Line}" BorderThickness="1" CornerRadius="6" Padding="8,4" Margin="0,0,8,6">
                         <StackPanel Orientation="Horizontal">
-                          <ui:SymbolIcon Symbol="Building24" FontSize="14" Foreground="{StaticResource Muted}" Margin="0,0,6,0" VerticalAlignment="Center" />
-                          <TextBlock x:Name="DeveloperCompany" Text="من رام الله الى القدس وبالعكس" FontSize="12" Foreground="{StaticResource Ink}" VerticalAlignment="Center" />
+                          <ui:SymbolIcon Symbol="Building24" FontSize="14" Foreground="{DynamicResource Muted}" Margin="0,0,6,0" VerticalAlignment="Center" />
+                          <TextBlock x:Name="DeveloperCompany" Text="من رام الله الى القدس وبالعكس" FontSize="12" Foreground="{DynamicResource Ink}" VerticalAlignment="Center" />
                         </StackPanel>
                       </Border>
-                      <Border x:Name="LocationTag" Background="{StaticResource Canvas}" BorderBrush="{StaticResource Line}" BorderThickness="1" CornerRadius="6" Padding="8,4" Margin="0,0,8,6" Visibility="Collapsed">
+                      <Border x:Name="LocationTag" Background="{DynamicResource SurfaceSecondary}" BorderBrush="{DynamicResource Line}" BorderThickness="1" CornerRadius="6" Padding="8,4" Margin="0,0,8,6" Visibility="Collapsed">
                         <StackPanel Orientation="Horizontal">
-                          <ui:SymbolIcon Symbol="Location24" FontSize="14" Foreground="{StaticResource Muted}" Margin="0,0,6,0" VerticalAlignment="Center" />
-                          <TextBlock x:Name="DeveloperLocation" Text="" FontSize="12" Foreground="{StaticResource Ink}" VerticalAlignment="Center" />
+                          <ui:SymbolIcon Symbol="Location24" FontSize="14" Foreground="{DynamicResource Muted}" Margin="0,0,6,0" VerticalAlignment="Center" />
+                          <TextBlock x:Name="DeveloperLocation" Text="" FontSize="12" Foreground="{DynamicResource Ink}" VerticalAlignment="Center" />
                         </StackPanel>
                       </Border>
                     </WrapPanel>
@@ -1157,15 +1169,15 @@
                     </StackPanel>
                   </Button>
                   <Button Click="RefreshProfileClicked" Style="{StaticResource Action}" Padding="10,8" Margin="0,0,0,6" ToolTip="Refresh profile from GitHub" AutomationProperties.Name="Refresh GitHub Profile">
-                    <ui:SymbolIcon Symbol="ArrowSync24" FontSize="15" Foreground="{StaticResource Muted}" VerticalAlignment="Center" />
+                    <ui:SymbolIcon Symbol="ArrowSync24" FontSize="15" Foreground="{DynamicResource Muted}" VerticalAlignment="Center" />
                   </Button>
                 </WrapPanel>
 
                 <!-- Divider -->
-                <Border Height="1" Background="{StaticResource LineSubtle}" Margin="0,0,0,18" />
+                <Border Height="1" Background="{DynamicResource LineSubtle}" Margin="0,0,0,18" />
 
                 <!-- GitHub Statistics Row -->
-                <TextBlock Text="GitHub Statistics" FontSize="12" FontWeight="SemiBold" Foreground="{StaticResource Muted}" Margin="0,0,0,10" />
+                <TextBlock Text="GitHub Statistics" FontSize="12" FontWeight="SemiBold" Foreground="{DynamicResource Muted}" Margin="0,0,0,10" />
                 <Grid Margin="0,0,0,6">
                   <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
@@ -1176,34 +1188,34 @@
                   </Grid.ColumnDefinitions>
 
                   <!-- Repositories -->
-                  <Border Grid.Column="0" Background="{StaticResource Canvas}" BorderBrush="{StaticResource Line}" BorderThickness="1" CornerRadius="10" Padding="14,12">
+                  <Border Grid.Column="0" Background="{DynamicResource SurfaceSecondary}" BorderBrush="{DynamicResource Line}" BorderThickness="1" CornerRadius="10" Padding="14,12">
                     <StackPanel>
-                      <TextBlock x:Name="StatRepos" Text="31" FontSize="20" FontWeight="Bold" Foreground="{StaticResource Ink}" />
-                      <TextBlock Text="Repositories" FontSize="11.5" Foreground="{StaticResource Muted}" Margin="0,2,0,0" />
+                      <TextBlock x:Name="StatRepos" Text="31" FontSize="20" FontWeight="Bold" Foreground="{DynamicResource Ink}" />
+                      <TextBlock Text="Repositories" FontSize="11.5" Foreground="{DynamicResource Muted}" Margin="0,2,0,0" />
                     </StackPanel>
                   </Border>
 
                   <!-- Followers -->
-                  <Border Grid.Column="2" Background="{StaticResource Canvas}" BorderBrush="{StaticResource Line}" BorderThickness="1" CornerRadius="10" Padding="14,12">
+                  <Border Grid.Column="2" Background="{DynamicResource SurfaceSecondary}" BorderBrush="{DynamicResource Line}" BorderThickness="1" CornerRadius="10" Padding="14,12">
                     <StackPanel>
-                      <TextBlock x:Name="StatFollowers" Text="9" FontSize="20" FontWeight="Bold" Foreground="{StaticResource Ink}" />
-                      <TextBlock Text="Followers" FontSize="11.5" Foreground="{StaticResource Muted}" Margin="0,2,0,0" />
+                      <TextBlock x:Name="StatFollowers" Text="9" FontSize="20" FontWeight="Bold" Foreground="{DynamicResource Ink}" />
+                      <TextBlock Text="Followers" FontSize="11.5" Foreground="{DynamicResource Muted}" Margin="0,2,0,0" />
                     </StackPanel>
                   </Border>
 
                   <!-- Following -->
-                  <Border Grid.Column="4" Background="{StaticResource Canvas}" BorderBrush="{StaticResource Line}" BorderThickness="1" CornerRadius="10" Padding="14,12">
+                  <Border Grid.Column="4" Background="{DynamicResource SurfaceSecondary}" BorderBrush="{DynamicResource Line}" BorderThickness="1" CornerRadius="10" Padding="14,12">
                     <StackPanel>
-                      <TextBlock x:Name="StatFollowing" Text="6" FontSize="20" FontWeight="Bold" Foreground="{StaticResource Ink}" />
-                      <TextBlock Text="Following" FontSize="11.5" Foreground="{StaticResource Muted}" Margin="0,2,0,0" />
+                      <TextBlock x:Name="StatFollowing" Text="6" FontSize="20" FontWeight="Bold" Foreground="{DynamicResource Ink}" />
+                      <TextBlock Text="Following" FontSize="11.5" Foreground="{DynamicResource Muted}" Margin="0,2,0,0" />
                     </StackPanel>
                   </Border>
                 </Grid>
 
                 <!-- Status & App Info -->
                 <DockPanel Margin="0,14,0,0">
-                  <TextBlock x:Name="ProfileSyncStatus" Text="Profile connected to GitHub" FontSize="11" Foreground="{StaticResource Muted}" VerticalAlignment="Center" />
-                  <TextBlock x:Name="VersionLabel" DockPanel.Dock="Right" HorizontalAlignment="Right" FontSize="11" Foreground="{StaticResource Muted}" VerticalAlignment="Center" />
+                  <TextBlock x:Name="ProfileSyncStatus" Text="Profile connected to GitHub" FontSize="11" Foreground="{DynamicResource Muted}" VerticalAlignment="Center" />
+                  <TextBlock x:Name="VersionLabel" DockPanel.Dock="Right" HorizontalAlignment="Right" FontSize="11" Foreground="{DynamicResource Muted}" VerticalAlignment="Center" />
                 </DockPanel>
               </StackPanel>
             </Border>
@@ -1217,10 +1229,10 @@
       </ScrollViewer>
 
       <!-- Bottom Application Status Bar -->
-      <Border Grid.Row="1" BorderBrush="{StaticResource Line}" BorderThickness="0,1,0,0" Padding="24,6" Background="#FFFFFF">
+      <Border Grid.Row="1" BorderBrush="{DynamicResource Line}" BorderThickness="0,1,0,0" Padding="24,6" Background="{DynamicResource SurfaceBrush}">
         <DockPanel>
-          <TextBlock Text="{Binding SaveStatus}" FontSize="11.5" Foreground="{StaticResource Muted}" VerticalAlignment="Center" />
-          <TextBlock DockPanel.Dock="Right" Text="LANGUAGE SWITCH INDICATOR" FontSize="9.5" FontWeight="SemiBold" HorizontalAlignment="Right" Foreground="{StaticResource MutedLight}" VerticalAlignment="Center" />
+          <TextBlock Text="{Binding SaveStatus}" FontSize="11.5" Foreground="{DynamicResource Muted}" VerticalAlignment="Center" />
+          <TextBlock DockPanel.Dock="Right" Text="LANGUAGE SWITCH INDICATOR" FontSize="9.5" FontWeight="SemiBold" HorizontalAlignment="Right" Foreground="{DynamicResource MutedLight}" VerticalAlignment="Center" />
         </DockPanel>
       </Border>
     </Grid>

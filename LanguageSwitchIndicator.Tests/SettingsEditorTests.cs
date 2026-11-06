@@ -50,4 +50,22 @@ public class SettingsEditorTests
         }
         finally { File.Delete(path); }
     }
+
+    [Fact]
+    public void AppTheme_PersistsAndRestores_Correctly()
+    {
+        var path = Path.Combine(Path.GetTempPath(), $"indicator-{Guid.NewGuid():N}.json");
+        try
+        {
+            var service = new SettingsService(path);
+            var editor = new SettingsEditor(service.Load(), service) { AppTheme = "Dark" };
+            var restored = service.Load();
+            Assert.Equal("Dark", restored.AppTheme);
+            Assert.Equal("Dark", restored.Clone().AppTheme);
+
+            editor.AppTheme = "Light";
+            Assert.Equal("Light", service.Load().AppTheme);
+        }
+        finally { File.Delete(path); }
+    }
 }

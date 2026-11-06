@@ -11,6 +11,7 @@ public class PopupManager
 {
     private readonly SettingsModel _settings;
     private LanguagePopupWindow? _currentPopup;
+    private LanguagePopupWindow? _previewPopup;
 
     public PopupManager(SettingsModel settings)
     {
@@ -60,5 +61,12 @@ public class PopupManager
     public void Preview()
     {
         ShowLanguage("EN");
+    }
+
+    public void Preview(SettingsModel previewSettings)
+    {
+        _previewPopup?.Close();
+        _previewPopup = new LanguagePopupWindow(previewSettings);
+        _previewPopup.ShowLanguage("EN");
     }
 }

@@ -183,10 +183,22 @@ public sealed class CaretTrackingService : IDisposable
                     }
                 }
             }
+            // Some editors expose their focused field but no caret rectangle.
+            if (element != null)
+            {
+                var bounds = element.Current.BoundingRectangle;
+                if (!bounds.IsEmpty && bounds.Width > 0 && bounds.Height > 0)
+                    return new WpfPoint(bounds.Left + bounds.Width / 2, bounds.Top + bounds.Height / 2);
+            }
         }
         catch (ElementNotAvailableException) { }
         catch (InvalidOperationException) { }
         catch (COMException) { }
+
+        if (User32.GetWindowRect(info.FocusedWindow, out var windowBounds)
+            && windowBounds.Right > windowBounds.Left && windowBounds.Bottom > windowBounds.Top)
+            return new WpfPoint((windowBounds.Left + windowBounds.Right) / 2d,
+                (windowBounds.Top + windowBounds.Bottom) / 2d);
 
         return null;
     }

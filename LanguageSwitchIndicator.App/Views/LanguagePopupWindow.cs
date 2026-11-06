@@ -7,6 +7,7 @@ using System.Windows.Threading;
 using LanguageSwitchIndicator.Models;
 using WpfPoint = System.Windows.Point;
 using Color = System.Windows.Media.Color;
+using LanguageSwitchIndicator.Native;
 
 namespace LanguageSwitchIndicator.Views;
 
@@ -241,16 +242,27 @@ public class LanguagePopupWindow : Window
 
     private void PositionPopup()
     {
-        var workArea = SystemParameters.WorkArea;
+        // Caret tracking reports physical desktop pixels, including negative monitor coordinates.
+        var screen = _targetPosition.HasValue
+            ? System.Windows.Forms.Screen.FromPoint(new System.Drawing.Point(
+                (int)_targetPosition.Value.X, (int)_targetPosition.Value.Y))
+            : System.Windows.Forms.Screen.FromHandle(User32.GetForegroundWindow());
+        var fromDevice = PresentationSource.FromVisual(this)?.CompositionTarget?.TransformFromDevice
+            ?? Matrix.Identity;
+        var bounds = screen.WorkingArea;
+        var origin = fromDevice.Transform(new WpfPoint(bounds.Left, bounds.Top));
+        var bottomRight = fromDevice.Transform(new WpfPoint(bounds.Right, bounds.Bottom));
+        var workArea = new System.Windows.Rect(origin, bottomRight);
         var width = Width;
         var height = Height;
         var left = 0d;
         var top = 0d;
 
-        if (_targetPosition.HasValue)
+        if (_targetPosition.HasValue && _settings.Placement == PopupPlacement.NearMouse)
         {
-            left = _targetPosition.Value.X + _settings.HorizontalOffset;
-            top = _targetPosition.Value.Y + _settings.VerticalOffset;
+            var caret = fromDevice.Transform(_targetPosition.Value);
+            left = caret.X + _settings.HorizontalOffset;
+            top = caret.Y + _settings.VerticalOffset;
         }
         else switch (_settings.Placement)
         {
@@ -279,8 +291,10 @@ public class LanguagePopupWindow : Window
                 top = workArea.Bottom - height - 24 + _settings.VerticalOffset;
                 break;
             case PopupPlacement.NearMouse:
-                left = System.Windows.Forms.Cursor.Position.X + _settings.HorizontalOffset;
-                top = System.Windows.Forms.Cursor.Position.Y + _settings.VerticalOffset;
+                var mouse = fromDevice.Transform(new WpfPoint(
+                    System.Windows.Forms.Cursor.Position.X, System.Windows.Forms.Cursor.Position.Y));
+                left = mouse.X + _settings.HorizontalOffset;
+                top = mouse.Y + _settings.VerticalOffset;
                 break;
             case PopupPlacement.Custom:
                 left = workArea.Left + _settings.HorizontalOffset;
@@ -292,8 +306,8 @@ public class LanguagePopupWindow : Window
                 break;
         }
 
-        Left = left;
-        Top = top;
+        Left = Math.Clamp(left, workArea.Left, Math.Max(workArea.Left, workArea.Right - width));
+        Top = Math.Clamp(top, workArea.Top, Math.Max(workArea.Top, workArea.Bottom - height));
     }
 
     private static DoubleAnimation CreateOpacityAnimation(double from, double to, double durationMs)

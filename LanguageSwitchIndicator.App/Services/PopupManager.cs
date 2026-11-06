@@ -25,6 +25,7 @@ public class PopupManager
             return;
         }
 
+        _previewPopup?.Hide();
         var popup = _currentPopup ??= new LanguagePopupWindow(_settings);
         popup.ShowLanguage(languageText);
         _currentPopup = popup;
@@ -37,25 +38,16 @@ public class PopupManager
             return;
         }
 
+        _previewPopup?.Hide();
         var popup = _currentPopup ??= new LanguagePopupWindow(_settings);
-        if (_settings.Placement == PopupPlacement.NearMouse)
-        {
-            popup.SetPosition(position);
-        }
-        else
-        {
-            popup.ClearPosition();
-        }
+        popup.SetPosition(position);
         popup.ShowLanguage(languageText);
         _currentPopup = popup;
     }
 
     public void MoveLanguageTo(WpfPoint position)
     {
-        if (_settings.Placement == PopupPlacement.NearMouse)
-        {
-            _currentPopup?.SetPosition(position);
-        }
+        _currentPopup?.SetPosition(position);
     }
 
     public void Preview()
@@ -65,6 +57,7 @@ public class PopupManager
 
     public void Preview(SettingsModel previewSettings)
     {
+        _currentPopup?.Hide();
         _previewPopup?.Close();
         _previewPopup = new LanguagePopupWindow(previewSettings);
         _previewPopup.ShowLanguage("English");

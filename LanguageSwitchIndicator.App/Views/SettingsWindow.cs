@@ -204,13 +204,13 @@ public sealed class SettingsWindow : Window
     {
         _previewBadge = new Border { Width = 180, Height = 110, CornerRadius = new CornerRadius(18), HorizontalAlignment = WpfHorizontalAlignment.Center, VerticalAlignment = VerticalAlignment.Center, Child = new Grid() };
         var panel = (Grid)_previewBadge.Child;
-        _previewText = new TextBlock { Text = "EN", FontWeight = FontWeights.SemiBold, HorizontalAlignment = WpfHorizontalAlignment.Center, VerticalAlignment = VerticalAlignment.Center };
+        _previewText = new TextBlock { Text = "English", FontWeight = FontWeights.SemiBold, HorizontalAlignment = WpfHorizontalAlignment.Center, VerticalAlignment = VerticalAlignment.Center };
         panel.Children.Add(_previewText);
         var card = new Border { MinHeight = 250, Margin = new Thickness(0, 0, 0, 18), Padding = new Thickness(16), Background = MediaBrushes.White, BorderBrush = new SolidColorBrush(BorderColor), BorderThickness = new Thickness(1), CornerRadius = new CornerRadius(10) };
         var content = new StackPanel();
         content.Children.Add(new TextBlock { Text = "Live preview", FontWeight = FontWeights.SemiBold, Margin = new Thickness(0, 0, 0, 10) });
         content.Children.Add(_previewBadge);
-        content.Children.Add(new TextBlock { Text = "EN  /  ع", HorizontalAlignment = WpfHorizontalAlignment.Center, Foreground = new SolidColorBrush(MediaColor.FromRgb(107, 114, 128)), Margin = new Thickness(0, 10, 0, 0) });
+        content.Children.Add(new TextBlock { Text = "English  /  العربية", HorizontalAlignment = WpfHorizontalAlignment.Center, Foreground = new SolidColorBrush(MediaColor.FromRgb(107, 114, 128)), Margin = new Thickness(0, 10, 0, 0) });
         card.Child = content;
         RefreshPreview();
         return card;

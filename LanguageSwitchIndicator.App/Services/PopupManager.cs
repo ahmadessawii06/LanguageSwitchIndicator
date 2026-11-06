@@ -60,13 +60,13 @@ public class PopupManager
 
     public void Preview()
     {
-        ShowLanguage("EN");
+        ShowLanguage("English");
     }
 
     public void Preview(SettingsModel previewSettings)
     {
         _previewPopup?.Close();
         _previewPopup = new LanguagePopupWindow(previewSettings);
-        _previewPopup.ShowLanguage("EN");
+        _previewPopup.ShowLanguage("English");
     }
 }

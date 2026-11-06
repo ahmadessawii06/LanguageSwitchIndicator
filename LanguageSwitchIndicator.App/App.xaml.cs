@@ -72,7 +72,7 @@ public partial class App : System.Windows.Application
                 settings.Enabled = !settings.Enabled;
                 _settingsService.Save(settings);
             },
-            () => _popupManager.ShowLanguage("EN"),
+            () => _popupManager.Preview(),
             () => Shutdown());
 
         _trayIconService.Show();

@@ -43,7 +43,7 @@ public class LanguagePopupWindow : Window
 
         _label = new TextBlock
         {
-            Text = "EN",
+            Text = "English",
             Foreground = new SolidColorBrush(System.Windows.Media.Colors.White),
             FontSize = Math.Clamp(settings.FontSize * 0.6, 16, 26),
             FontFamily = new System.Windows.Media.FontFamily(settings.FontFamily),

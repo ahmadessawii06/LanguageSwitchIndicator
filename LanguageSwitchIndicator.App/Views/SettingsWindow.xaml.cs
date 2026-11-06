@@ -86,7 +86,8 @@ public partial class SettingsWindow : Window
         {
             var selected = child.Tag?.ToString() == _editor.Placement.ToString();
             child.Background = selected ? (System.Windows.Media.Brush)FindResource("Accent") : Brushes.White;
-            child.Foreground = selected ? Brushes.White : (System.Windows.Media.Brush)FindResource("Ink");
+            child.BorderBrush = selected ? (System.Windows.Media.Brush)FindResource("Accent") : (System.Windows.Media.Brush)FindResource("Line");
+            child.BorderThickness = selected ? new Thickness(2) : new Thickness(1);
             System.Windows.Automation.AutomationProperties.SetHelpText(child, selected ? "Current position" : "Select indicator position");
         }
     }

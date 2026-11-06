@@ -115,19 +115,65 @@
               <TextBlock Text="A place in your workspace" FontSize="18" FontWeight="SemiBold" /><TextBlock Text="Always on the screen where you are writing." Style="{StaticResource Caption}" Margin="0,6,0,20" />
               <Grid x:Name="PositionMap" Height="230" Background="#E7EFED" Margin="0,0,0,20">
                 <Grid.RowDefinitions><RowDefinition /><RowDefinition /><RowDefinition /></Grid.RowDefinitions><Grid.ColumnDefinitions><ColumnDefinition /><ColumnDefinition /><ColumnDefinition /></Grid.ColumnDefinitions>
-                <Button Tag="TopLeft" Content="Top left" Grid.Row="0" Grid.Column="0" Click="PositionClicked" Style="{StaticResource Action}" Margin="6" />
-                <Button Tag="TopCenter" Content="Top" Grid.Row="0" Grid.Column="1" Click="PositionClicked" Style="{StaticResource Action}" Margin="6" />
-                <Button Tag="TopRight" Content="Top right" Grid.Row="0" Grid.Column="2" Click="PositionClicked" Style="{StaticResource Action}" Margin="6" />
-                <Button Tag="Center" Content="Center" Grid.Row="1" Grid.Column="1" Click="PositionClicked" Style="{StaticResource Action}" Margin="6" />
-                <Button Tag="BottomLeft" Content="Bottom left" Grid.Row="2" Grid.Column="0" Click="PositionClicked" Style="{StaticResource Action}" Margin="6" />
-                <Button Tag="BottomCenter" Content="Bottom" Grid.Row="2" Grid.Column="1" Click="PositionClicked" Style="{StaticResource Action}" Margin="6" />
-                <Button Tag="BottomRight" Content="Bottom right" Grid.Row="2" Grid.Column="2" Click="PositionClicked" Style="{StaticResource Action}" Margin="6" />
+                <Button Tag="TopLeft" Grid.Row="0" Grid.Column="0" Click="PositionClicked" Style="{StaticResource Action}" Margin="6" ToolTip="Top left" AutomationProperties.Name="Top left">
+                  <Border CornerRadius="8" Background="#21262D" Width="48" Height="40" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                      <ui:SymbolIcon Symbol="Keyboard24" FontSize="17" Foreground="White" HorizontalAlignment="Center" />
+                      <TextBlock Text="EN" FontSize="8" FontWeight="SemiBold" Foreground="#E2E8F0" HorizontalAlignment="Center" Margin="0,1,0,0" />
+                    </StackPanel>
+                  </Border>
+                </Button>
+                <Button Tag="TopCenter" Grid.Row="0" Grid.Column="1" Click="PositionClicked" Style="{StaticResource Action}" Margin="6" ToolTip="Top center" AutomationProperties.Name="Top center">
+                  <Border CornerRadius="8" Background="#21262D" Width="48" Height="40" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                      <ui:SymbolIcon Symbol="Keyboard24" FontSize="17" Foreground="White" HorizontalAlignment="Center" />
+                      <TextBlock Text="EN" FontSize="8" FontWeight="SemiBold" Foreground="#E2E8F0" HorizontalAlignment="Center" Margin="0,1,0,0" />
+                    </StackPanel>
+                  </Border>
+                </Button>
+                <Button Tag="TopRight" Grid.Row="0" Grid.Column="2" Click="PositionClicked" Style="{StaticResource Action}" Margin="6" ToolTip="Top right" AutomationProperties.Name="Top right">
+                  <Border CornerRadius="8" Background="#21262D" Width="48" Height="40" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                      <ui:SymbolIcon Symbol="Keyboard24" FontSize="17" Foreground="White" HorizontalAlignment="Center" />
+                      <TextBlock Text="EN" FontSize="8" FontWeight="SemiBold" Foreground="#E2E8F0" HorizontalAlignment="Center" Margin="0,1,0,0" />
+                    </StackPanel>
+                  </Border>
+                </Button>
+                <Button Tag="Center" Grid.Row="1" Grid.Column="1" Click="PositionClicked" Style="{StaticResource Action}" Margin="6" ToolTip="Center" AutomationProperties.Name="Center">
+                  <Border CornerRadius="8" Background="#21262D" Width="48" Height="40" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                      <ui:SymbolIcon Symbol="Keyboard24" FontSize="17" Foreground="White" HorizontalAlignment="Center" />
+                      <TextBlock Text="EN" FontSize="8" FontWeight="SemiBold" Foreground="#E2E8F0" HorizontalAlignment="Center" Margin="0,1,0,0" />
+                    </StackPanel>
+                  </Border>
+                </Button>
+                <Button Tag="BottomLeft" Grid.Row="2" Grid.Column="0" Click="PositionClicked" Style="{StaticResource Action}" Margin="6" ToolTip="Bottom left" AutomationProperties.Name="Bottom left">
+                  <Border CornerRadius="8" Background="#21262D" Width="48" Height="40" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                      <ui:SymbolIcon Symbol="Keyboard24" FontSize="17" Foreground="White" HorizontalAlignment="Center" />
+                      <TextBlock Text="EN" FontSize="8" FontWeight="SemiBold" Foreground="#E2E8F0" HorizontalAlignment="Center" Margin="0,1,0,0" />
+                    </StackPanel>
+                  </Border>
+                </Button>
+                <Button Tag="BottomCenter" Grid.Row="2" Grid.Column="1" Click="PositionClicked" Style="{StaticResource Action}" Margin="6" ToolTip="Bottom center" AutomationProperties.Name="Bottom center">
+                  <Border CornerRadius="8" Background="#21262D" Width="48" Height="40" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                      <ui:SymbolIcon Symbol="Keyboard24" FontSize="17" Foreground="White" HorizontalAlignment="Center" />
+                      <TextBlock Text="EN" FontSize="8" FontWeight="SemiBold" Foreground="#E2E8F0" HorizontalAlignment="Center" Margin="0,1,0,0" />
+                    </StackPanel>
+                  </Border>
+                </Button>
+                <Button Tag="BottomRight" Grid.Row="2" Grid.Column="2" Click="PositionClicked" Style="{StaticResource Action}" Margin="6" ToolTip="Bottom right" AutomationProperties.Name="Bottom right">
+                  <Border CornerRadius="8" Background="#21262D" Width="48" Height="40" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                      <ui:SymbolIcon Symbol="Keyboard24" FontSize="17" Foreground="White" HorizontalAlignment="Center" />
+                      <TextBlock Text="EN" FontSize="8" FontWeight="SemiBold" Foreground="#E2E8F0" HorizontalAlignment="Center" Margin="0,1,0,0" />
+                    </StackPanel>
+                  </Border>
+                </Button>
               </Grid>
               <TextBlock Text="Placement" Style="{StaticResource FieldLabel}" /><ComboBox x:Name="PlacementChoice" SelectedValuePath="Key" ItemTemplate="{StaticResource OptionLabel}" SelectedValue="{Binding Placement}" AutomationProperties.Name="Indicator placement" />
-              <TextBlock Text="Offsets · px" Style="{StaticResource SectionTitle}" /><TextBlock Text="Fine-tune from the selected position. Custom starts at the top-left of the active screen." Style="{StaticResource Caption}" Margin="0,0,0,18" />
-              <StackPanel Style="{StaticResource Field}"><TextBlock Text="Horizontal" Style="{StaticResource FieldLabel}" /><TextBox Text="{Binding HorizontalOffset, ValidatesOnExceptions=True}" AutomationProperties.Name="Horizontal offset" /></StackPanel>
-              <StackPanel Style="{StaticResource Field}"><TextBlock Text="Vertical" Style="{StaticResource FieldLabel}" /><TextBox Text="{Binding VerticalOffset, ValidatesOnExceptions=True}" AutomationProperties.Name="Vertical offset" /></StackPanel>
-              <Button Content="Preview on this screen" Click="PopupPreviewClicked" Style="{StaticResource Primary}" HorizontalAlignment="Left" />
+              <Button Content="Preview on this screen" Click="PopupPreviewClicked" Style="{StaticResource Primary}" HorizontalAlignment="Left" Margin="0,20,0,0" />
             </StackPanel></Border>
           </StackPanel>
 

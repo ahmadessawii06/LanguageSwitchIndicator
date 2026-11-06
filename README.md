@@ -87,9 +87,9 @@ Fine-tune the visual look and feel with an interactive live preview.
 
 Place clarity exactly where you need it across single or multi-monitor setups.
 
-- 🧭 **9-Point Placement Grid:** Center, Top Center, Bottom Center, Corners (Top Left, Top Right, Bottom Left, Bottom Right).
+- 🖥️ **Visual Screen Grid:** Interactive monitor map showing the indicator popup badge across corners, edges, and center.
 - 🖱️ **Beside the Text Caret:** Dynamically places the indicator right next to where your text cursor is located.
-- 🎛️ **Custom Pixel Offsets:** Fine-tune the exact horizontal and vertical offset from the top-left screen edge.
+- 🎯 **Instant Preview:** Test the selected position immediately on your active monitor with one click.
 
 <p align="center">
   <img src="docs/images/settings-position.png" alt="Position Settings" width="760">

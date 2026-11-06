@@ -131,7 +131,7 @@ public partial class SettingsWindow : Window
     private void AboutClicked(object sender, RoutedEventArgs e) { Navigation.SelectedIndex = -1; NavigateTo("About"); }
     private void TestSwitchClicked(object sender, RoutedEventArgs e)
     {
-        _example = _example == "English" ? "ع" : "English";
+        _example = _example == "English" ? "عربي" : "English";
         RefreshPreview();
         LiveIndicator.Animate(_editor.Settings);
         if (IndicatorView.MotionEnabled(_editor.Settings)) LiveIndicator.BeginAnimation(OpacityProperty, new DoubleAnimation(0, 1, TimeSpan.FromMilliseconds(_editor.FadeInDurationMs / _editor.AnimationSpeed)));
@@ -163,7 +163,12 @@ public partial class SettingsWindow : Window
     private void PopulateLanguages()
     {
         var languages = System.Windows.Forms.InputLanguage.InstalledInputLanguages.Cast<System.Windows.Forms.InputLanguage>()
-            .Select(language => new LanguageMapping { InputLanguageId = language.Culture.Name, Label = _editor.Settings.LanguageMappings.FirstOrDefault(x => x.InputLanguageId == language.Culture.Name)?.Label ?? language.Culture.EnglishName }).ToList();
+            .Select(language => new LanguageMapping
+            {
+                InputLanguageId = language.Culture.Name,
+                Label = _editor.Settings.LanguageMappings.FirstOrDefault(x => x.InputLanguageId == language.Culture.Name)?.Label
+                    ?? (language.Culture.TwoLetterISOLanguageName.Equals("ar", StringComparison.OrdinalIgnoreCase) ? "عربي" : language.Culture.EnglishName)
+            }).ToList();
         LanguageList.ItemsSource = languages;
     }
     private void LanguageSelected(object sender, SelectionChangedEventArgs e)

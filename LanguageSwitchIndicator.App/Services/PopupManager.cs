@@ -12,6 +12,17 @@ public class PopupManager
     private readonly SettingsModel _settings;
     private LanguagePopupWindow? _currentPopup;
     private LanguagePopupWindow? _previewPopup;
+    private DateTime _feedbackUntil;
+
+    public void ShowFeedback(string message)
+    {
+        _feedbackUntil = DateTime.UtcNow.AddMilliseconds(Math.Max(1800, _settings.PopupDurationMs));
+        _previewPopup?.Close();
+        var feedbackSettings = _settings.Clone();
+        feedbackSettings.PopupDurationMs = Math.Max(1800, _settings.PopupDurationMs);
+        _previewPopup = new LanguagePopupWindow(feedbackSettings);
+        _previewPopup.ShowLanguage(message);
+    }
 
     public PopupManager(SettingsModel settings)
     {
@@ -20,12 +31,13 @@ public class PopupManager
 
     public void ShowLanguage(string languageText)
     {
+        if (DateTime.UtcNow < _feedbackUntil) return;
         if (string.IsNullOrWhiteSpace(languageText))
         {
             return;
         }
 
-        _previewPopup?.Hide();
+        _previewPopup?.Dismiss();
         var popup = _currentPopup ??= new LanguagePopupWindow(_settings);
         popup.ShowLanguage(languageText);
         _currentPopup = popup;
@@ -33,12 +45,13 @@ public class PopupManager
 
     public void ShowLanguageAt(string languageText, WpfPoint position)
     {
+        if (DateTime.UtcNow < _feedbackUntil) return;
         if (string.IsNullOrWhiteSpace(languageText))
         {
             return;
         }
 
-        _previewPopup?.Hide();
+        _previewPopup?.Dismiss();
         var popup = _currentPopup ??= new LanguagePopupWindow(_settings);
         popup.SetPosition(position);
         popup.ShowLanguage(languageText);
@@ -52,14 +65,20 @@ public class PopupManager
 
     public void Preview()
     {
-        ShowLanguage("English");
+        Preview(_settings.Clone());
     }
 
     public void Preview(SettingsModel previewSettings)
     {
-        _currentPopup?.Hide();
+        _currentPopup?.Dismiss();
         _previewPopup?.Close();
         _previewPopup = new LanguagePopupWindow(previewSettings);
         _previewPopup.ShowLanguage("English");
+    }
+
+    public void Dismiss()
+    {
+        _currentPopup?.Dismiss();
+        _previewPopup?.Dismiss();
     }
 }

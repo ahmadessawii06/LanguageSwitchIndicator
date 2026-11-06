@@ -50,6 +50,12 @@ public class LanguageMapping
 
 public class SettingsModel
 {
+    public bool TypingCorrectionEnabled { get; set; } = true;
+    public string TypingCorrectionHotkey { get; set; } = "F8";
+    public Typing.CorrectionDirection TypingCorrectionDirection { get; set; } = Typing.CorrectionDirection.Auto;
+    public bool SwitchLayoutAfterCorrection { get; set; }
+    public bool ReduceMotion { get; set; }
+    public bool UseCustomColors { get; set; }
     public int IndicatorSize { get; set; } = 2;
 
     [System.Text.Json.Serialization.JsonIgnore]
@@ -101,6 +107,12 @@ public class SettingsModel
     {
         return new SettingsModel
         {
+            TypingCorrectionEnabled = TypingCorrectionEnabled,
+            TypingCorrectionHotkey = TypingCorrectionHotkey,
+            TypingCorrectionDirection = TypingCorrectionDirection,
+            SwitchLayoutAfterCorrection = SwitchLayoutAfterCorrection,
+            ReduceMotion = ReduceMotion,
+            UseCustomColors = UseCustomColors,
             Enabled = Enabled,
             LaunchAtStartup = LaunchAtStartup,
             StartMinimized = StartMinimized,

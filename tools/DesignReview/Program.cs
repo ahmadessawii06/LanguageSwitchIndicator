@@ -107,6 +107,14 @@ internal static class Program
         if (((SettingsEditor)reopened.DataContext).FontSize != 34) throw new Exception("Reopening did not restore settings.");
         reopened.Close();
         if (live && args.Contains("--typing-check")) CheckTyping(manager, settings);
+        if (args.Contains("--export-docs"))
+        {
+            var docsImages = Path.GetFullPath("docs/images");
+            ExportDocsImages(window, docsImages);
+            RenderThemesImage(Path.Combine(docsImages, "themes.png"));
+            RenderSizesImage(Path.Combine(docsImages, "sizes.png"));
+            Console.WriteLine("Exported all documentation screenshots to docs/images/");
+        }
         File.WriteAllText(Path.Combine(folder, "binding-errors.log"), trace.ToString());
         if (trace.ToString().Contains("System.Windows.Data Error")) throw new Exception("Binding errors were logged.");
         app.Shutdown();
@@ -205,5 +213,100 @@ internal static class Program
         encoder.Frames.Add(BitmapFrame.Create(bitmap));
         using var stream = File.Create(file);
         encoder.Save(stream);
+    }
+    private static void ExportDocsImages(SettingsWindow window, string docsImagesDir)
+    {
+        Directory.CreateDirectory(docsImagesDir);
+        var root = (FrameworkElement)window.Content;
+        window.Width = 1180;
+        window.Height = 820;
+        root.Measure(new Size(1180, 780));
+        root.Arrange(new Rect(0, 0, 1180, 780));
+        root.UpdateLayout();
+        window.GetType().GetMethod("UpdateResponsiveLayout", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)!.Invoke(window, null);
+
+        var pages = new[]
+        {
+            ("General", "settings-general.png"),
+            ("Appearance", "settings-appearance.png"),
+            ("Position", "settings-position.png"),
+            ("Animations", "settings-animations.png"),
+            ("Languages", "settings-languages.png"),
+            ("Typing correction", "settings-typing-correction.png"),
+            ("Advanced", "settings-advanced.png"),
+            ("About", "settings-about.png")
+        };
+
+        foreach (var (pageName, fileName) in pages)
+        {
+            window.NavigateTo(pageName);
+            var navigation = (ListBox)window.FindName("Navigation");
+            navigation.SelectedItem = navigation.Items.Cast<ListBoxItem>().FirstOrDefault(x => x.Tag?.ToString() == pageName);
+            Pump();
+            Capture(root, 1180, 780, 1.25, Path.Combine(docsImagesDir, fileName));
+        }
+    }
+    private static void RenderThemesImage(string file)
+    {
+        var panel = new StackPanel { Orientation = Orientation.Horizontal, HorizontalAlignment = HorizontalAlignment.Center, VerticalAlignment = VerticalAlignment.Center };
+        
+        var darkSettings = new SettingsModel { Theme = "Dark", IndicatorSize = 2, PopupWidth = 170, PopupHeight = 150 };
+        var darkView = new IndicatorView();
+        darkView.Apply(darkSettings, "English");
+        darkView.Margin = new Thickness(30, 20, 30, 20);
+
+        var lightSettings = new SettingsModel { Theme = "Light", IndicatorSize = 2, PopupWidth = 170, PopupHeight = 150 };
+        var lightView = new IndicatorView();
+        lightView.Apply(lightSettings, "عربي");
+        lightView.Margin = new Thickness(30, 20, 30, 20);
+
+        panel.Children.Add(darkView);
+        panel.Children.Add(lightView);
+
+        var canvas = new Border
+        {
+            Background = new SolidColorBrush(Color.FromRgb(0xF5, 0xF7, 0xF9)),
+            Width = 680,
+            Height = 320,
+            Child = panel
+        };
+
+        Capture(canvas, 680, 320, 1.5, file);
+    }
+    private static void RenderSizesImage(string file)
+    {
+        var panel = new StackPanel { Orientation = Orientation.Horizontal, HorizontalAlignment = HorizontalAlignment.Center, VerticalAlignment = VerticalAlignment.Center };
+
+        var labels = new[] { "Extra small", "Small", "Medium", "Large", "Extra large" };
+        for (int size = 0; size < 5; size++)
+        {
+            var col = new StackPanel { HorizontalAlignment = HorizontalAlignment.Center, VerticalAlignment = VerticalAlignment.Center, Margin = new Thickness(14, 10, 14, 10) };
+            var settings = new SettingsModel { Theme = "Dark", IndicatorSize = size, PopupWidth = 170, PopupHeight = 150 };
+            var view = new IndicatorView();
+            view.Apply(settings, "عربي");
+            col.Children.Add(view);
+
+            var title = new TextBlock
+            {
+                Text = labels[size],
+                FontSize = 13,
+                FontWeight = FontWeights.SemiBold,
+                Foreground = new SolidColorBrush(Color.FromRgb(0x4A, 0x55, 0x68)),
+                HorizontalAlignment = HorizontalAlignment.Center,
+                Margin = new Thickness(0, 10, 0, 0)
+            };
+            col.Children.Add(title);
+            panel.Children.Add(col);
+        }
+
+        var canvas = new Border
+        {
+            Background = new SolidColorBrush(Color.FromRgb(0xF5, 0xF7, 0xF9)),
+            Width = 1100,
+            Height = 360,
+            Child = panel
+        };
+
+        Capture(canvas, 1100, 360, 1.5, file);
     }
 }

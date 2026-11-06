@@ -170,18 +170,30 @@ public sealed class SettingsWindow : Window
     {
         var page = CreatePage("Appearance", "Customize the badge and see changes reflected in the preview.");
         var fields = new StackPanel();
-        fields.Children.Add(CreateLabeledRow("Theme", CreateComboBox(new[] { "Dark", "Light", "System" }, ThemeIndex(), index => _settings.Theme = new[] { "Dark", "Light", "System" }[index])));
+        fields.Children.Add(CreateLabeledRow("Indicator size", CreateComboBox(
+            new[] { "Extra small", "Small", "Medium", "Large", "Extra large" },
+            Math.Clamp(_settings.IndicatorSize, 0, 4), index =>
+            {
+                _settings.IndicatorSize = index;
+                _settingsService.Save(_settings);
+                RefreshPreview();
+                _popupManager.Preview(_settings.Clone());
+            })));
+        fields.Children.Add(CreateLabeledRow("Theme", CreateComboBox(new[] { "Dark", "Light", "System" }, ThemeIndex(), index =>
+        {
+            _settings.Theme = new[] { "Dark", "Light", "System" }[index];
+            _settingsService.Save(_settings);
+            RefreshPreview();
+            _popupManager.Preview(_settings.Clone());
+        })));
         fields.Children.Add(CreateColorField("Background color", _settings.BackgroundColor, value => { _settings.BackgroundColor = value; RefreshPreview(); }));
         fields.Children.Add(CreateColorField("Text color", _settings.TextColor, value => { _settings.TextColor = value; RefreshPreview(); }));
         fields.Children.Add(CreateNumericField("Width", _settings.PopupWidth, 60, 1000, "px", value => { _settings.PopupWidth = value; RefreshPreview(); }));
         fields.Children.Add(CreateNumericField("Height", _settings.PopupHeight, 40, 1000, "px", value => { _settings.PopupHeight = value; RefreshPreview(); }));
         fields.Children.Add(CreateNumericField("Font size", _settings.FontSize, 8, 200, "px", value => { _settings.FontSize = value; RefreshPreview(); }));
-        var layout = new Grid();
-        layout.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
-        layout.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(260) });
+        var layout = new StackPanel();
         layout.Children.Add(CreateCard("Badge settings", "Colors and dimensions used by the indicator.", fields));
         var preview = CreatePreviewCard();
-        Grid.SetColumn(preview, 1);
         layout.Children.Add(preview);
         page.Children.Add(layout);
         page.Children.Add(CreatePreviewButton("Preview popup"));
@@ -194,7 +206,7 @@ public sealed class SettingsWindow : Window
         var panel = (Grid)_previewBadge.Child;
         _previewText = new TextBlock { Text = "EN", FontWeight = FontWeights.SemiBold, HorizontalAlignment = WpfHorizontalAlignment.Center, VerticalAlignment = VerticalAlignment.Center };
         panel.Children.Add(_previewText);
-        var card = new Border { Height = 220, Margin = new Thickness(14, 0, 0, 0), Padding = new Thickness(16), Background = MediaBrushes.White, BorderBrush = new SolidColorBrush(BorderColor), BorderThickness = new Thickness(1), CornerRadius = new CornerRadius(10) };
+        var card = new Border { MinHeight = 250, Margin = new Thickness(0, 0, 0, 18), Padding = new Thickness(16), Background = MediaBrushes.White, BorderBrush = new SolidColorBrush(BorderColor), BorderThickness = new Thickness(1), CornerRadius = new CornerRadius(10) };
         var content = new StackPanel();
         content.Children.Add(new TextBlock { Text = "Live preview", FontWeight = FontWeights.SemiBold, Margin = new Thickness(0, 0, 0, 10) });
         content.Children.Add(_previewBadge);
@@ -288,6 +300,11 @@ public sealed class SettingsWindow : Window
         _previewBadge.Width = Math.Clamp(_settings.PopupWidth, 100, 220);
         _previewBadge.Height = Math.Clamp(_settings.PopupHeight, 60, 150);
         _previewText.FontSize = Math.Clamp(_settings.FontSize * 0.55, 14, 34);
+        _previewBadge.Width *= _settings.IndicatorScale;
+        _previewBadge.Height *= _settings.IndicatorScale;
+        _previewText.FontSize *= _settings.IndicatorScale;
+        _previewBadge.Background = IndicatorPalette.Background(_settings);
+        _previewText.Foreground = IndicatorPalette.Foreground(_settings);
     }
 
     private static WpfCheckBox CreateCheckBox(string title, bool value, Action<bool> onChanged)

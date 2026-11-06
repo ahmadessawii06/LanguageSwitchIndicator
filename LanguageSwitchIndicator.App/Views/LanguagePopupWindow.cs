@@ -6,6 +6,7 @@ using System.Windows.Media.Animation;
 using System.Windows.Threading;
 using LanguageSwitchIndicator.Models;
 using WpfPoint = System.Windows.Point;
+using Color = System.Windows.Media.Color;
 
 namespace LanguageSwitchIndicator.Views;
 
@@ -14,6 +15,7 @@ public class LanguagePopupWindow : Window
     private readonly SettingsModel _settings;
     private readonly Border _border;
     private readonly TextBlock _label;
+    private readonly Border _keyboard;
     private readonly DispatcherTimer _hideTimer;
     private long _displayVersion;
     private readonly ScaleTransform _scale = new(1, 1);
@@ -59,7 +61,8 @@ public class LanguagePopupWindow : Window
             VerticalAlignment = VerticalAlignment.Center,
             HorizontalAlignment = System.Windows.HorizontalAlignment.Center
         };
-        content.Children.Add(CreateKeyboardIcon());
+        _keyboard = CreateKeyboardIcon();
+        content.Children.Add(_keyboard);
         content.Children.Add(_label);
 
         _border = new Border
@@ -85,6 +88,8 @@ public class LanguagePopupWindow : Window
         };
 
         Content = _border;
+        ApplyIndicatorSize();
+        ApplyTheme();
         Left = 0;
         Top = 0;
 
@@ -103,6 +108,8 @@ public class LanguagePopupWindow : Window
         }
 
         _label.Text = languageText;
+        ApplyIndicatorSize();
+        ApplyTheme();
         _hideTimer.Stop();
         var wasVisible = IsVisible;
         var currentOpacity = wasVisible ? Opacity : 0;
@@ -141,6 +148,36 @@ public class LanguagePopupWindow : Window
         {
             PositionPopup();
         }
+    }
+
+    private void ApplyIndicatorSize()
+    {
+        var scale = _settings.IndicatorScale;
+        // Lay out at the final size so text and vector keys render at native resolution.
+        var fontSize = Math.Clamp(_settings.FontSize * 0.6, 16, 26) * scale;
+        _label.FontSize = fontSize;
+        _label.Margin = new Thickness(4 * scale, 13 * scale, 4 * scale, 0);
+        _keyboard.Width = 78 * scale;
+        _keyboard.Height = 48 * scale;
+        _keyboard.BorderThickness = new Thickness(Math.Max(1, 2 * scale));
+        _keyboard.CornerRadius = new CornerRadius(6 * scale);
+        _border.Padding = new Thickness(16 * scale);
+        _border.CornerRadius = new CornerRadius(Math.Max(22, _settings.CornerRadius) * scale);
+        Width = Math.Max(150, _settings.PopupWidth) * scale + 48;
+        Height = Math.Max(Math.Max(140, _settings.PopupHeight) * scale,
+            _keyboard.Height + 13 * scale + fontSize * 1.5 + 32 * scale + 2) + 48;
+    }
+
+    private void ApplyTheme()
+    {
+        _border.Background = IndicatorPalette.Background(_settings);
+        _border.BorderBrush = new SolidColorBrush(IndicatorPalette.IsLight(_settings)
+            ? Color.FromArgb(40, 0, 0, 0) : Color.FromArgb(48, 255, 255, 255));
+        var foreground = IndicatorPalette.Foreground(_settings);
+        _label.Foreground = foreground;
+        _keyboard.BorderBrush = foreground;
+        foreach (Border key in ((Grid)_keyboard.Child).Children)
+            key.Background = foreground;
     }
 
     public void ClearPosition()

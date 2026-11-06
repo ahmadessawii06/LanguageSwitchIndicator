@@ -50,6 +50,18 @@ public class LanguageMapping
 
 public class SettingsModel
 {
+    public int IndicatorSize { get; set; } = 2;
+
+    [System.Text.Json.Serialization.JsonIgnore]
+    public double IndicatorScale => IndicatorSize switch
+    {
+        0 => 0.6,
+        1 => 0.8,
+        3 => 1.2,
+        4 => 1.4,
+        _ => 1.0
+    };
+
     public bool Enabled { get; set; } = true;
     public bool LaunchAtStartup { get; set; } = false;
     public bool StartMinimized { get; set; } = false;
@@ -103,6 +115,7 @@ public class SettingsModel
             TextColor = TextColor,
             FontFamily = FontFamily,
             FontSize = FontSize,
+            IndicatorSize = IndicatorSize,
             PopupWidth = PopupWidth,
             PopupHeight = PopupHeight,
             CornerRadius = CornerRadius,

@@ -9,6 +9,56 @@ namespace LanguageSwitchIndicator.Tests;
 public class LanguagePopupWindowTests
 {
     [Fact]
+    public void Popup_AllSizesFitContent_AndThemeUpdatesOnExistingWindow()
+    {
+        Exception? failure = null;
+        var thread = new Thread(() =>
+        {
+            LanguagePopupWindow? popup = null;
+            try
+            {
+                var settings = new SettingsModel { FadeInDurationMs = 0 };
+                popup = new LanguagePopupWindow(settings);
+                double previousWidth = 0;
+                for (var size = 0; size < 5; size++)
+                {
+                    settings.IndicatorSize = size;
+                    popup.ShowLanguage("EN");
+                    popup.UpdateLayout();
+                    var border = (System.Windows.Controls.Border)popup.Content;
+                    var content = (System.Windows.Controls.StackPanel)border.Child;
+                    var label = (System.Windows.Controls.TextBlock)content.Children[1];
+                    Assert.Null(border.LayoutTransform as System.Windows.Media.ScaleTransform);
+                    Assert.True(popup.Width > previousWidth);
+                    Assert.True(content.ActualHeight + border.Padding.Top + border.Padding.Bottom
+                        + border.BorderThickness.Top + border.BorderThickness.Bottom <= border.ActualHeight + 1);
+                    Assert.True(label.ActualHeight >= label.FontSize);
+                    previousWidth = popup.Width;
+                }
+                settings.Theme = "Light";
+                popup.ShowLanguage("EN");
+                var badge = (System.Windows.Controls.Border)popup.Content;
+                var light = (System.Windows.Media.LinearGradientBrush)badge.Background;
+                Assert.True(light.GradientStops[0].Color.R > 200);
+                settings.Theme = "Dark";
+                popup.ShowLanguage("EN");
+                var dark = (System.Windows.Media.LinearGradientBrush)badge.Background;
+                Assert.True(dark.GradientStops[0].Color.R < 100);
+            }
+            catch (Exception exception) { failure = exception; }
+            finally
+            {
+                popup?.Close();
+                Dispatcher.CurrentDispatcher.InvokeShutdown();
+            }
+        });
+        thread.SetApartmentState(ApartmentState.STA);
+        thread.Start();
+        Assert.True(thread.Join(TimeSpan.FromSeconds(10)), "Popup test timed out.");
+        if (failure != null) ExceptionDispatchInfo.Capture(failure).Throw();
+    }
+
+    [Fact]
     public void Popup_RemainsOpaqueAfterFadeIn_AndRenewsDuringFadeOut()
     {
         Exception? failure = null;

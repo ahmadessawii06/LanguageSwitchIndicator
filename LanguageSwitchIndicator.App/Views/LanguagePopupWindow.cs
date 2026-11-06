@@ -5,6 +5,7 @@ using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Threading;
 using LanguageSwitchIndicator.Models;
+using WpfPoint = System.Windows.Point;
 
 namespace LanguageSwitchIndicator.Views;
 
@@ -16,6 +17,7 @@ public class LanguagePopupWindow : Window
     private readonly DispatcherTimer _hideTimer;
     private long _displayVersion;
     private readonly ScaleTransform _scale = new(1, 1);
+    private WpfPoint? _targetPosition;
 
     public LanguagePopupWindow(SettingsModel settings)
     {
@@ -132,6 +134,20 @@ public class LanguagePopupWindow : Window
         _hideTimer.Start();
     }
 
+    public void SetPosition(WpfPoint position)
+    {
+        _targetPosition = position;
+        if (IsVisible)
+        {
+            PositionPopup();
+        }
+    }
+
+    public void ClearPosition()
+    {
+        _targetPosition = null;
+    }
+
     private static Border CreateKeyboardIcon()
     {
         var keys = new Grid { Margin = new Thickness(5) };
@@ -194,7 +210,12 @@ public class LanguagePopupWindow : Window
         var left = 0d;
         var top = 0d;
 
-        switch (_settings.Placement)
+        if (_targetPosition.HasValue)
+        {
+            left = _targetPosition.Value.X + _settings.HorizontalOffset;
+            top = _targetPosition.Value.Y + _settings.VerticalOffset;
+        }
+        else switch (_settings.Placement)
         {
             case PopupPlacement.TopCenter:
                 left = workArea.Left + (workArea.Width - width) / 2 + _settings.HorizontalOffset;

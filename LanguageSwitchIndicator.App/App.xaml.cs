@@ -1,5 +1,6 @@
 using System;
 using System.Windows;
+using LanguageSwitchIndicator.Models;
 using LanguageSwitchIndicator.Services;
 using LanguageSwitchIndicator.Views;
 
@@ -10,6 +11,7 @@ public partial class App : System.Windows.Application
     private SettingsService _settingsService = null!;
     private SettingsWindow? _settingsWindow;
     private InputLanguageMonitor _inputLanguageMonitor = null!;
+    private CaretTrackingService _caretTrackingService = null!;
     private PopupManager _popupManager = null!;
     private TrayIconService _trayIconService = null!;
 
@@ -22,14 +24,33 @@ public partial class App : System.Windows.Application
 
         _popupManager = new PopupManager(settings);
         _inputLanguageMonitor = new InputLanguageMonitor();
-        _inputLanguageMonitor.LanguageChanged += (_, args) =>
+        _caretTrackingService = new CaretTrackingService(_inputLanguageMonitor);
+        _caretTrackingService.CaretChanged += (_, args) =>
         {
-            if (!settings.Enabled || settings.IsPaused)
+            if (!settings.Enabled || settings.IsPaused ||
+                (!args.LanguageChanged && settings.TriggerMode == PopupTriggerMode.LanguageChangeOnly) ||
+                (args.LanguageChanged && settings.TriggerMode == PopupTriggerMode.CaretPlacedOnly))
             {
                 return;
             }
 
-            Dispatcher.Invoke(() => _popupManager.ShowLanguage(args.DisplayText));
+            var language = _inputLanguageMonitor.GetCurrentDisplayText();
+            if (string.IsNullOrWhiteSpace(language))
+            {
+                return;
+            }
+
+            Dispatcher.Invoke(() =>
+            {
+                if (args.Activation)
+                {
+                    _popupManager.ShowLanguageAt(language, args.Position);
+                }
+                else
+                {
+                    _popupManager.MoveLanguageTo(args.Position);
+                }
+            });
         };
 
         _trayIconService = new TrayIconService(
@@ -67,6 +88,7 @@ public partial class App : System.Windows.Application
     protected override void OnExit(ExitEventArgs e)
     {
         _inputLanguageMonitor?.Dispose();
+        _caretTrackingService?.Dispose();
         _trayIconService?.Dispose();
         base.OnExit(e);
     }

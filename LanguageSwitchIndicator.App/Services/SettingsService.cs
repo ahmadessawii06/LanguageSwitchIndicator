@@ -37,7 +37,18 @@ public class SettingsService
         {
             var json = File.ReadAllText(_settingsPath);
             var settings = JsonSerializer.Deserialize<SettingsModel>(json, _jsonOptions);
-            return settings ?? new SettingsModel();
+            if (settings == null)
+            {
+                return new SettingsModel();
+            }
+
+            if (!json.Contains("\"TriggerMode\"", StringComparison.OrdinalIgnoreCase))
+            {
+                settings.TriggerMode = PopupTriggerMode.Both;
+                settings.ShowPopupOnTyping = true;
+            }
+
+            return settings;
         }
         catch
         {

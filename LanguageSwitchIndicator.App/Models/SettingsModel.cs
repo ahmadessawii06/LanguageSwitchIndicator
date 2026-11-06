@@ -34,6 +34,13 @@ public enum LanguageDisplayMode
     CustomLabel
 }
 
+public enum PopupTriggerMode
+{
+    LanguageChangeOnly = 0,
+    CaretPlacedOnly,
+    Both
+}
+
 public class LanguageMapping
 {
     public string InputLanguageId { get; set; } = string.Empty;
@@ -48,7 +55,9 @@ public class SettingsModel
     public bool StartMinimized { get; set; } = false;
     public bool ShowOnlyOnLanguageChange { get; set; } = true;
     public bool ShowOnVariantChange { get; set; } = true;
-    public bool ShowPopupOnFocusChange { get; set; } = false;
+    public bool ShowPopupOnTyping { get; set; } = true;
+    public bool ShowPopupOnFocusChange { get; set; } = true;
+    public PopupTriggerMode TriggerMode { get; set; } = PopupTriggerMode.Both;
     public bool IsPaused { get; set; } = false;
 
     public string Theme { get; set; } = "Dark";
@@ -68,7 +77,7 @@ public class SettingsModel
 
     public AnimationStyle AnimationStyle { get; set; } = AnimationStyle.FadeScale;
     public double AnimationSpeed { get; set; } = 1.0;
-    public double PopupDurationMs { get; set; } = 700;
+    public double PopupDurationMs { get; set; } = 1000;
     public double FadeInDurationMs { get; set; } = 120;
     public double FadeOutDurationMs { get; set; } = 200;
 
@@ -85,7 +94,9 @@ public class SettingsModel
             StartMinimized = StartMinimized,
             ShowOnlyOnLanguageChange = ShowOnlyOnLanguageChange,
             ShowOnVariantChange = ShowOnVariantChange,
+            ShowPopupOnTyping = ShowPopupOnTyping,
             ShowPopupOnFocusChange = ShowPopupOnFocusChange,
+            TriggerMode = TriggerMode,
             IsPaused = IsPaused,
             Theme = Theme,
             BackgroundColor = BackgroundColor,

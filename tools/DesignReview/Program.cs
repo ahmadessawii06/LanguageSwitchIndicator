@@ -280,33 +280,47 @@ internal static class Program
         var labels = new[] { "Extra small", "Small", "Medium", "Large", "Extra large" };
         for (int size = 0; size < 5; size++)
         {
-            var col = new StackPanel { HorizontalAlignment = HorizontalAlignment.Center, VerticalAlignment = VerticalAlignment.Center, Margin = new Thickness(14, 10, 14, 10) };
+            var col = new Grid { Margin = new Thickness(12, 0, 12, 0) };
+            col.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
+            col.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
+
             var settings = new SettingsModel { Theme = "Dark", IndicatorSize = size, PopupWidth = 170, PopupHeight = 150 };
-            var view = new IndicatorView();
-            view.Apply(settings, "عربي");
+            var view = new IndicatorView
+            {
+                HorizontalAlignment = HorizontalAlignment.Center,
+                VerticalAlignment = VerticalAlignment.Bottom
+            };
+            view.Apply(settings, "English");
+            Grid.SetRow(view, 0);
             col.Children.Add(view);
 
             var title = new TextBlock
             {
                 Text = labels[size],
-                FontSize = 13,
+                FontSize = 14,
                 FontWeight = FontWeights.SemiBold,
                 Foreground = new SolidColorBrush(Color.FromRgb(0x4A, 0x55, 0x68)),
                 HorizontalAlignment = HorizontalAlignment.Center,
-                Margin = new Thickness(0, 10, 0, 0)
+                Margin = new Thickness(0, 16, 0, 0)
             };
+            Grid.SetRow(title, 1);
             col.Children.Add(title);
+
             panel.Children.Add(col);
         }
 
         var canvas = new Border
         {
             Background = new SolidColorBrush(Color.FromRgb(0xF5, 0xF7, 0xF9)),
-            Width = 1100,
-            Height = 360,
+            CornerRadius = new CornerRadius(16),
+            BorderBrush = new SolidColorBrush(Color.FromRgb(0xDF, 0xE5, 0xE8)),
+            BorderThickness = new Thickness(1),
+            Padding = new Thickness(36, 24, 36, 24),
+            Width = 1380,
+            Height = 420,
             Child = panel
         };
 
-        Capture(canvas, 1100, 360, 1.5, file);
+        Capture(canvas, 1380, 420, 1.5, file);
     }
 }

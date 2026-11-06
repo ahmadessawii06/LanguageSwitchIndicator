@@ -64,7 +64,7 @@
                       BorderBrush="{TemplateBinding BorderBrush}"
                       BorderThickness="{TemplateBinding BorderThickness}"
                       CornerRadius="9"
-                      Width="46" Height="40">
+                      Width="56" Height="44">
                 <Border.Effect>
                   <DropShadowEffect BlurRadius="6" ShadowDepth="2" Opacity="0.25" Color="#000000" />
                 </Border.Effect>
@@ -611,52 +611,52 @@
                             <!-- Row 0: Top Left, Top Center, Top Right -->
                             <Button Tag="TopLeft" Grid.Row="0" Grid.Column="0" Click="PositionClicked" Style="{StaticResource MonitorPosBtn}" HorizontalAlignment="Left" VerticalAlignment="Top" ToolTip="Top left" AutomationProperties.Name="Top left">
                               <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-                                <ui:SymbolIcon Symbol="Keyboard24" FontSize="16" Foreground="White" HorizontalAlignment="Center" />
-                                <TextBlock Text="EN" FontSize="8.5" FontWeight="Bold" Foreground="White" HorizontalAlignment="Center" Margin="0,1,0,0" />
+                                <ui:SymbolIcon Symbol="Keyboard24" FontSize="15" Foreground="White" HorizontalAlignment="Center" />
+                                <TextBlock Text="English" FontSize="8" FontWeight="SemiBold" Foreground="White" HorizontalAlignment="Center" Margin="0,1,0,0" />
                               </StackPanel>
                             </Button>
 
                             <Button Tag="TopCenter" Grid.Row="0" Grid.Column="1" Click="PositionClicked" Style="{StaticResource MonitorPosBtn}" HorizontalAlignment="Center" VerticalAlignment="Top" ToolTip="Top center" AutomationProperties.Name="Top center">
                               <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-                                <ui:SymbolIcon Symbol="Keyboard24" FontSize="16" Foreground="White" HorizontalAlignment="Center" />
-                                <TextBlock Text="EN" FontSize="8.5" FontWeight="Bold" Foreground="White" HorizontalAlignment="Center" Margin="0,1,0,0" />
+                                <ui:SymbolIcon Symbol="Keyboard24" FontSize="15" Foreground="White" HorizontalAlignment="Center" />
+                                <TextBlock Text="English" FontSize="8" FontWeight="SemiBold" Foreground="White" HorizontalAlignment="Center" Margin="0,1,0,0" />
                               </StackPanel>
                             </Button>
 
                             <Button Tag="TopRight" Grid.Row="0" Grid.Column="2" Click="PositionClicked" Style="{StaticResource MonitorPosBtn}" HorizontalAlignment="Right" VerticalAlignment="Top" ToolTip="Top right" AutomationProperties.Name="Top right">
                               <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-                                <ui:SymbolIcon Symbol="Keyboard24" FontSize="16" Foreground="White" HorizontalAlignment="Center" />
-                                <TextBlock Text="EN" FontSize="8.5" FontWeight="Bold" Foreground="White" HorizontalAlignment="Center" Margin="0,1,0,0" />
+                                <ui:SymbolIcon Symbol="Keyboard24" FontSize="15" Foreground="White" HorizontalAlignment="Center" />
+                                <TextBlock Text="English" FontSize="8" FontWeight="SemiBold" Foreground="White" HorizontalAlignment="Center" Margin="0,1,0,0" />
                               </StackPanel>
                             </Button>
 
                             <!-- Row 1: Center -->
                             <Button Tag="Center" Grid.Row="1" Grid.Column="1" Click="PositionClicked" Style="{StaticResource MonitorPosBtn}" HorizontalAlignment="Center" VerticalAlignment="Center" ToolTip="Center" AutomationProperties.Name="Center">
                               <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-                                <ui:SymbolIcon Symbol="Keyboard24" FontSize="16" Foreground="White" HorizontalAlignment="Center" />
-                                <TextBlock Text="EN" FontSize="8.5" FontWeight="Bold" Foreground="White" HorizontalAlignment="Center" Margin="0,1,0,0" />
+                                <ui:SymbolIcon Symbol="Keyboard24" FontSize="15" Foreground="White" HorizontalAlignment="Center" />
+                                <TextBlock Text="English" FontSize="8" FontWeight="SemiBold" Foreground="White" HorizontalAlignment="Center" Margin="0,1,0,0" />
                               </StackPanel>
                             </Button>
 
                             <!-- Row 2: Bottom Left, Bottom Center, Bottom Right -->
                             <Button Tag="BottomLeft" Grid.Row="2" Grid.Column="0" Click="PositionClicked" Style="{StaticResource MonitorPosBtn}" HorizontalAlignment="Left" VerticalAlignment="Bottom" ToolTip="Bottom left" AutomationProperties.Name="Bottom left">
                               <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-                                <ui:SymbolIcon Symbol="Keyboard24" FontSize="16" Foreground="White" HorizontalAlignment="Center" />
-                                <TextBlock Text="EN" FontSize="8.5" FontWeight="Bold" Foreground="White" HorizontalAlignment="Center" Margin="0,1,0,0" />
+                                <ui:SymbolIcon Symbol="Keyboard24" FontSize="15" Foreground="White" HorizontalAlignment="Center" />
+                                <TextBlock Text="English" FontSize="8" FontWeight="SemiBold" Foreground="White" HorizontalAlignment="Center" Margin="0,1,0,0" />
                               </StackPanel>
                             </Button>
 
                             <Button Tag="BottomCenter" Grid.Row="2" Grid.Column="1" Click="PositionClicked" Style="{StaticResource MonitorPosBtn}" HorizontalAlignment="Center" VerticalAlignment="Bottom" ToolTip="Bottom center" AutomationProperties.Name="Bottom center">
                               <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-                                <ui:SymbolIcon Symbol="Keyboard24" FontSize="16" Foreground="White" HorizontalAlignment="Center" />
-                                <TextBlock Text="EN" FontSize="8.5" FontWeight="Bold" Foreground="White" HorizontalAlignment="Center" Margin="0,1,0,0" />
+                                <ui:SymbolIcon Symbol="Keyboard24" FontSize="15" Foreground="White" HorizontalAlignment="Center" />
+                                <TextBlock Text="English" FontSize="8" FontWeight="SemiBold" Foreground="White" HorizontalAlignment="Center" Margin="0,1,0,0" />
                               </StackPanel>
                             </Button>
 
                             <Button Tag="BottomRight" Grid.Row="2" Grid.Column="2" Click="PositionClicked" Style="{StaticResource MonitorPosBtn}" HorizontalAlignment="Right" VerticalAlignment="Bottom" ToolTip="Bottom right" AutomationProperties.Name="Bottom right">
                               <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-                                <ui:SymbolIcon Symbol="Keyboard24" FontSize="16" Foreground="White" HorizontalAlignment="Center" />
-                                <TextBlock Text="EN" FontSize="8.5" FontWeight="Bold" Foreground="White" HorizontalAlignment="Center" Margin="0,1,0,0" />
+                                <ui:SymbolIcon Symbol="Keyboard24" FontSize="15" Foreground="White" HorizontalAlignment="Center" />
+                                <TextBlock Text="English" FontSize="8" FontWeight="SemiBold" Foreground="White" HorizontalAlignment="Center" Margin="0,1,0,0" />
                               </StackPanel>
                             </Button>
                           </Grid>

@@ -85,23 +85,25 @@ public partial class SettingsWindow : Window
         foreach (var child in PositionMap.Children.OfType<Button>())
         {
             var selected = child.Tag?.ToString() == _editor.Placement.ToString();
-            child.Background = selected ? (System.Windows.Media.Brush)FindResource("Accent") : Brushes.White;
-            child.BorderBrush = selected ? (System.Windows.Media.Brush)FindResource("Accent") : (System.Windows.Media.Brush)FindResource("Line");
+            child.Background = selected ? (System.Windows.Media.Brush)FindResource("Accent") : (System.Windows.Media.Brush)FindResource("MonitorButtonBg");
+            child.BorderBrush = selected ? (System.Windows.Media.Brush)FindResource("AccentBorder") : (System.Windows.Media.Brush)FindResource("MonitorButtonBorder");
             child.BorderThickness = selected ? new Thickness(2) : new Thickness(1);
+            child.Opacity = selected ? 1.0 : 0.65;
             System.Windows.Automation.AutomationProperties.SetHelpText(child, selected ? "Current position" : "Select indicator position");
         }
     }
     private void UpdateResponsiveLayout()
     {
-        var wide = ActualWidth >= 1080;
-        SidebarColumn.Width = new GridLength(ActualWidth < 800 ? 184 : 224);
-        PageScroll.Padding = new Thickness(ActualWidth < 800 ? 20 : 32, 28, ActualWidth < 800 ? 20 : 32, 28);
+        var effectiveWidth = ActualWidth > 0 ? ActualWidth : (double.IsNaN(Width) ? 1180 : Width);
+        var wide = effectiveWidth >= 960;
+        SidebarColumn.Width = new GridLength(effectiveWidth < 800 ? 184 : 224);
+        PageScroll.Padding = new Thickness(effectiveWidth < 800 ? 20 : 32, 24, effectiveWidth < 800 ? 20 : 32, 24);
         EditorColumn.Width = new GridLength(1, GridUnitType.Star);
         PreviewColumn.Width = wide ? new GridLength(1, GridUnitType.Star) : new GridLength(0);
         Grid.SetColumn(PreviewPanel, wide ? 1 : 0);
-        Grid.SetRow(PreviewPanel, 0);
+        Grid.SetRow(PreviewPanel, wide ? 0 : 0);
         Grid.SetRow(AppearanceEditor, wide ? 0 : 1);
-        PreviewPanel.Margin = wide ? new Thickness(22, 0, 0, 0) : new Thickness(0, 0, 0, 20);
+        PreviewPanel.Margin = wide ? new Thickness(20, 0, 0, 0) : new Thickness(0, 0, 0, 20);
     }
     private void NavigationChanged(object sender, SelectionChangedEventArgs e)
     {
@@ -127,6 +129,7 @@ public partial class SettingsWindow : Window
             _ => "Your language, always in view. Make the indicator work your way."
         };
         AboutButton.Background = section == "About" ? (System.Windows.Media.Brush)FindResource("AccentSoft") : Brushes.White;
+        AboutButton.BorderBrush = section == "About" ? (System.Windows.Media.Brush)FindResource("AccentBorder") : (System.Windows.Media.Brush)FindResource("Line");
         PageScroll.ScrollToTop();
         if (section == "Languages") { RefreshDetectedLanguage(); PopulateLanguages(); }
         if (section == "About") { _ = RefreshDeveloperProfileAsync(isUserInitiated: false); }

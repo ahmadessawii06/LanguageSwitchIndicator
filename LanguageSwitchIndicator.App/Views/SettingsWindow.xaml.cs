@@ -4,6 +4,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
+using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using LanguageSwitchIndicator.Models;
 using LanguageSwitchIndicator.Services;
@@ -27,6 +28,8 @@ public partial class SettingsWindow : Window
     private bool _applyingPreset;
     private string _section = "General";
     private readonly TypingCorrectionService? _correction;
+    private readonly GitHubProfileService _profileService = new();
+    private bool _profileLoadedFromNetwork;
     public SettingsWindow(SettingsService service, PopupManager popupManager, InputLanguageMonitor? monitor, SettingsModel settings, TypingCorrectionService? correction = null)
     {
         InitializeComponent();
@@ -51,7 +54,7 @@ public partial class SettingsWindow : Window
         DataContext = _editor;
         PresetChoice.SelectedIndex = MatchingPreset();
         VersionLabel.Text = $"Version {ProductInfo.Version}  ·  Windows desktop";
-        PopulateDevelopers();
+        ApplyDeveloperProfile(_profileService.LoadCachedProfile());
         _editor.Changed += SettingsChanged;
         _previewTimer.Tick += (_, _) => { _previewTimer.Stop(); MotionIndicator.BeginAnimation(OpacityProperty, new DoubleAnimation(1, 0, TimeSpan.FromMilliseconds(IndicatorView.MotionEnabled(settings) ? settings.FadeOutDurationMs / Math.Max(.25, settings.AnimationSpeed) : 0))); };
         _languageTimer.Tick += (_, _) => RefreshDetectedLanguage();
@@ -110,7 +113,7 @@ public partial class SettingsWindow : Window
         var pages = new[] { GeneralPage, AppearancePage, PositionPage, AnimationsPage, LanguagesPage, CorrectionPage, AdvancedPage, AboutPage };
         var names = new[] { "General", "Appearance", "Position", "Animations", "Languages", "Typing correction", "Advanced", "About" };
         for (var i = 0; i < pages.Length; i++) pages[i].Visibility = names[i] == section ? Visibility.Visible : Visibility.Collapsed;
-        PageTitle.Text = section == "About" ? "About & Developers" : section;
+        PageTitle.Text = section == "About" ? "About the Developer" : section;
         PageDescription.Text = section switch
         {
             "Appearance" => "A familiar cue. A look that is entirely yours.",
@@ -119,12 +122,13 @@ public partial class SettingsWindow : Window
             "Languages" => "Different languages. One seamless flow.",
             "Typing correction" => "Keep the words. Fix the keyboard layout.",
             "Advanced" => "A few extra controls, when you need them.",
-            "About" => "Made for people who think in more than one language.",
+            "About" => "Meet the developer behind Language Switch Indicator.",
             _ => "Your language, always in view. Make the indicator work your way."
         };
         AboutButton.Background = section == "About" ? (System.Windows.Media.Brush)FindResource("AccentSoft") : Brushes.White;
         PageScroll.ScrollToTop();
         if (section == "Languages") { RefreshDetectedLanguage(); PopulateLanguages(); }
+        if (section == "About") { _ = RefreshDeveloperProfileAsync(isUserInitiated: false); }
         if (!_editor.ReduceMotion && SystemParameters.ClientAreaAnimation)
             PageRoot.BeginAnimation(OpacityProperty, new DoubleAnimation(.65, 1, TimeSpan.FromMilliseconds(140)));
     }
@@ -192,36 +196,110 @@ public partial class SettingsWindow : Window
         LanguageMessage.Text = "Label saved. It will appear on your next language switch.";
         PopulateLanguages();
     }
-    private void PopulateDevelopers()
+    private void ApplyDeveloperProfile(GitHubProfile profile)
     {
-        if (ProductInfo.Developers.Count == 0)
+        DeveloperName.Text = profile.Name;
+        DeveloperUsername.Text = $"@{profile.Login}";
+        DeveloperBio.Text = profile.Bio;
+        StatRepos.Text = profile.PublicRepos.ToString();
+        StatFollowers.Text = profile.Followers.ToString();
+        StatFollowing.Text = profile.Following.ToString();
+
+        if (!string.IsNullOrWhiteSpace(profile.Company))
         {
-            DevelopersHost.Children.Add(new Border { Style = (Style)FindResource("Surface"), Child = new TextBlock { Text = "Developer profiles are coming soon. Visit the project to follow its progress.", TextWrapping = TextWrapping.Wrap } });
-            return;
+            DeveloperCompany.Text = profile.Company;
+            CompanyTag.Visibility = Visibility.Visible;
         }
-        foreach (var developer in ProductInfo.Developers)
+        else
         {
-            var content = new StackPanel();
-            content.Children.Add(new TextBlock { Text = developer.Name, FontSize = 18, FontWeight = FontWeights.SemiBold });
-            content.Children.Add(new TextBlock { Text = developer.Role, Style = (Style)FindResource("Caption"), Margin = new Thickness(0, 5, 0, 14) });
-            var links = new WrapPanel();
-            foreach (var (title, url) in new[] { ("GitHub profile", developer.GitHub), ("Website", developer.Website) })
+            CompanyTag.Visibility = Visibility.Collapsed;
+        }
+
+        if (!string.IsNullOrWhiteSpace(profile.Location))
+        {
+            DeveloperLocation.Text = profile.Location;
+            LocationTag.Visibility = Visibility.Visible;
+        }
+        else
+        {
+            LocationTag.Visibility = Visibility.Collapsed;
+        }
+
+        LoadAvatarImage(profile);
+    }
+
+    private void LoadAvatarImage(GitHubProfile profile)
+    {
+        try
+        {
+            if (!string.IsNullOrEmpty(profile.LocalAvatarPath) && File.Exists(profile.LocalAvatarPath))
             {
-                if (!IsTrustedLink(url)) continue;
-                var button = new Button { Content = title, Style = (Style)FindResource("Action"), Margin = new Thickness(0, 0, 8, 6) };
-                button.Click += (_, _) => OpenLink(url!);
-                links.Children.Add(button);
+                var bitmap = new BitmapImage();
+                bitmap.BeginInit();
+                bitmap.CacheOption = BitmapCacheOption.OnLoad;
+                bitmap.UriSource = new Uri(profile.LocalAvatarPath, UriKind.Absolute);
+                bitmap.EndInit();
+                bitmap.Freeze();
+                DeveloperAvatar.Source = bitmap;
+                return;
             }
-            content.Children.Add(links);
-            DevelopersHost.Children.Add(new Border { Style = (Style)FindResource("Surface"), Child = content, Margin = new Thickness(0, 0, 0, 12) });
+
+            if (!string.IsNullOrEmpty(profile.AvatarUrl) && Uri.TryCreate(profile.AvatarUrl, UriKind.Absolute, out var avatarUri))
+            {
+                var bitmap = new BitmapImage();
+                bitmap.BeginInit();
+                bitmap.CacheOption = BitmapCacheOption.OnLoad;
+                bitmap.UriSource = avatarUri;
+                bitmap.EndInit();
+                DeveloperAvatar.Source = bitmap;
+            }
+        }
+        catch
+        {
+            // Fallback initials AE remain visible behind
         }
     }
+
+    private async Task RefreshDeveloperProfileAsync(bool isUserInitiated = false)
+    {
+        if (!isUserInitiated && _profileLoadedFromNetwork) return;
+        try
+        {
+            ProfileSyncStatus.Text = "Updating profile from GitHub...";
+            var profile = await _profileService.FetchProfileAsync();
+            _profileLoadedFromNetwork = true;
+            Dispatcher.Invoke(() =>
+            {
+                ApplyDeveloperProfile(profile);
+                ProfileSyncStatus.Text = "Live profile from GitHub";
+            });
+        }
+        catch (Exception ex)
+        {
+            Dispatcher.Invoke(() =>
+            {
+                ProfileSyncStatus.Text = isUserInitiated ? "Unable to connect to GitHub. Showing cached profile." : "Offline mode · Cached profile";
+            });
+            DiagnosticLog.Write($"GitHub profile fetch notice: {ex.Message}");
+        }
+    }
+
+    private void ViewGitHubProfileClicked(object sender, RoutedEventArgs e)
+    {
+        OpenLink("https://github.com/ahmadessawii06");
+    }
+
+    private async void RefreshProfileClicked(object sender, RoutedEventArgs e)
+    {
+        await RefreshDeveloperProfileAsync(isUserInitiated: true);
+    }
+
     private static bool IsTrustedLink(string? link) => Uri.TryCreate(link, UriKind.Absolute, out var uri) && uri.Scheme == "https" && string.IsNullOrEmpty(uri.UserInfo);
     private void OpenLink(string url)
     {
         if (!IsTrustedLink(url)) return;
         try { Process.Start(new ProcessStartInfo(url) { UseShellExecute = true }); }
-        catch (Exception ex) when (ex is System.ComponentModel.Win32Exception or InvalidOperationException) { LinkStatus.Text = "Could not open the browser. Please try again."; }
+        catch (Exception ex) when (ex is System.ComponentModel.Win32Exception or InvalidOperationException) { LinkStatus.Text = "Could not open the browser. Please try again."; LinkStatus.Visibility = Visibility.Visible; }
     }
     private void RepositoryClicked(object sender, RoutedEventArgs e) => OpenLink(ProductInfo.Repository);
     private void OpenDataClicked(object sender, RoutedEventArgs e)

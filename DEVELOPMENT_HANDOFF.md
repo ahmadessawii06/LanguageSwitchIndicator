@@ -12,9 +12,10 @@
 ## Current Project Status
 - **Active Branch:** `feature-show-on-focus`
 - **Build Status:** Clean build in both Debug and Release (`dotnet build -c Release -p:UseSharedCompilation=false --disable-build-servers`).
-- **Test Status:** **81 automated tests passing** in both Debug and Release (`dotnet test -c Release -p:UseSharedCompilation=false --disable-build-servers`).
+- **Test Status:** **86 automated tests passing** in both Debug and Release (`dotnet test -c Release -p:UseSharedCompilation=false --disable-build-servers`).
 - **Design Review:** All 8 settings pages verified at 1180, 700, and 620 DIP with 0 data binding errors.
 - **Default Shortcut:** `F8` for new installations (existing user configurations preserved).
+- **About & Developer Page:** Modern developer-focused GitHub profile integration for `ahmadessawii06` with live GitHub API sync, local caching, and offline support.
 
 ---
 
@@ -30,7 +31,7 @@
   5. **Languages:** Automatic layout detection and customizable language display labels.
   6. **Typing Correction:** User-configurable global hotkey recorder, toggle layout fix, direction selection, interactive text test box.
   7. **Advanced:** Regional variant change triggers, focus change triggers, diagnostic logging, open data folder shortcut.
-  8. **About & Developers:** Project version, verified developer list loaded from embedded `developers.json`, safe external link handlers, GitHub link.
+  8. **About the Developer:** Developer-focused GitHub profile page for `ahmadessawii06`. Features circular avatar with initial fallback, name, username (`@ahmadessawii06`), bio, company metadata, interactive stats (Repositories, Followers, Following), direct GitHub profile link, project repository link, manual sync button, and background live sync with local offline caching (`github_profile_cache.json` & `github_avatar.png`).
 - Reusable `IndicatorView.xaml` user control shared between live popups and settings preview panels.
 - Responsive design adapting below 1080 and 800 DIP width.
 

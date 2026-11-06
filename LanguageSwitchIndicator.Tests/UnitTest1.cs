@@ -11,6 +11,8 @@ public class InputLanguageMonitorTests
     [InlineData(0x0401, "ar-SA")]
     [InlineData(0x040C, "fr-FR")]
     [InlineData(0x0407, "de-DE")]
+    [InlineData(0x0809, "en-GB")]
+    [InlineData(0x0C0A, "es-ES")]
     [InlineData(0x1234, "en-US")]
     public void ResolveLanguageByLayoutId_ReturnsExpectedLanguage(int layoutId, string expected)
     {

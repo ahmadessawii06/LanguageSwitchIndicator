@@ -24,6 +24,8 @@ public class InputLanguageChangedEventArgs : EventArgs
 
 public class InputLanguageMonitor : IDisposable
 {
+    private readonly SettingsModel? _settings;
+    public string GetCurrentLanguageIdentifier() => GetCurrentLanguageId();
     private readonly object _lock = new();
     private readonly CancellationTokenSource _cts = new();
     private readonly Task _monitorTask;
@@ -53,11 +55,20 @@ public class InputLanguageMonitor : IDisposable
         }
 
         var language = Culturize(languageId);
+        if (_settings != null)
+        {
+            lock (_settings.LanguageMappings)
+            {
+                var mapping = _settings.LanguageMappings.FirstOrDefault(x => x.InputLanguageId == languageId);
+                if (mapping != null && !string.IsNullOrWhiteSpace(mapping.Label)) return mapping.Label;
+            }
+        }
         return GetLabel(languageId, language);
     }
 
-    public InputLanguageMonitor()
+    public InputLanguageMonitor(SettingsModel? settings = null)
     {
+        _settings = settings;
         _keyboardHookCallback = KeyboardHookCallback;
         _mouseHookCallback = MouseHookCallback;
         _keyboardHookHandle = User32.SetWindowsHookEx(
@@ -370,14 +381,8 @@ public class InputLanguageMonitor : IDisposable
 
     public static string ResolveLanguageByLayoutId(int layoutId)
     {
-        return layoutId switch
-        {
-            0x0409 => "en-US",
-            0x0401 => "ar-SA",
-            0x040C => "fr-FR",
-            0x0407 => "de-DE",
-            _ => "en-US"
-        };
+        try { return CultureInfo.GetCultureInfo(layoutId).Name; }
+        catch (CultureNotFoundException) { return "en-US"; }
     }
 
     private static string GuessLanguageByLayoutHex(string hex)

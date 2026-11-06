@@ -25,9 +25,9 @@ public class LanguagePopupWindowTests
                     settings.IndicatorSize = size;
                     popup.ShowLanguage("EN");
                     popup.UpdateLayout();
-                    var border = (System.Windows.Controls.Border)popup.Content;
+                    var border = (System.Windows.Controls.Border)popup.Indicator.FindName("Badge");
                     var content = (System.Windows.Controls.StackPanel)border.Child;
-                    var label = (System.Windows.Controls.TextBlock)content.Children[1];
+                    var label = (System.Windows.Controls.TextBlock)popup.Indicator.FindName("LanguageLabel");
                     Assert.Null(border.LayoutTransform as System.Windows.Media.ScaleTransform);
                     Assert.True(popup.Width > previousWidth);
                     Assert.True(content.ActualHeight + border.Padding.Top + border.Padding.Bottom
@@ -37,7 +37,7 @@ public class LanguagePopupWindowTests
                 }
                 settings.Theme = "Light";
                 popup.ShowLanguage("EN");
-                var badge = (System.Windows.Controls.Border)popup.Content;
+                var badge = (System.Windows.Controls.Border)popup.Indicator.FindName("Badge");
                 var light = (System.Windows.Media.LinearGradientBrush)badge.Background;
                 Assert.True(light.GradientStops[0].Color.R > 200);
                 settings.Theme = "Dark";
@@ -106,6 +106,50 @@ public class LanguagePopupWindowTests
         {
             ExceptionDispatchInfo.Capture(failure).Throw();
         }
+    }
+
+    [Fact]
+    public void Popup_MultiMonitorPositioning_AdaptsToTargetCoordinates()
+    {
+        Exception? failure = null;
+        var thread = new Thread(() =>
+        {
+            LanguagePopupWindow? popup = null;
+            try
+            {
+                var settings = new SettingsModel
+                {
+                    FadeInDurationMs = 0,
+                    Placement = PopupPlacement.NearMouse
+                };
+                popup = new LanguagePopupWindow(settings);
+                popup.SetPosition(new System.Windows.Point(100, 150));
+                popup.ShowLanguage("English");
+                popup.UpdateLayout();
+                Assert.True(popup.IsVisible);
+                Assert.True(popup.Left >= 0);
+                Assert.True(popup.Top >= 0);
+
+                // Moving coordinates dynamically updates position
+                popup.SetPosition(new System.Windows.Point(200, 250));
+                popup.UpdateLayout();
+                Assert.True(popup.IsVisible);
+
+                popup.ClearPosition();
+                popup.Dismiss();
+                Assert.False(popup.IsVisible);
+            }
+            catch (Exception exception) { failure = exception; }
+            finally
+            {
+                popup?.Close();
+                Dispatcher.CurrentDispatcher.InvokeShutdown();
+            }
+        });
+        thread.SetApartmentState(ApartmentState.STA);
+        thread.Start();
+        Assert.True(thread.Join(TimeSpan.FromSeconds(10)), "Popup test timed out.");
+        if (failure != null) ExceptionDispatchInfo.Capture(failure).Throw();
     }
 
     private static void PumpFor(int milliseconds)

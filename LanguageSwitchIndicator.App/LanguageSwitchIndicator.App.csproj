@@ -13,9 +13,15 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="developers.json" />
+    <Content Include="Licenses\*" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
     <Resource Include="Assets\Icons\LanguageSwitchIndicator.ico" />
     <EmbeddedResource Include="Assets\Icons\tray_white.ico" />
     <EmbeddedResource Include="Assets\Icons\tray_dark.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="WPF-UI" Version="4.3.0" />
   </ItemGroup>
 
 </Project>

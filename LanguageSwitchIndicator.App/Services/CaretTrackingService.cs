@@ -14,12 +14,16 @@ public sealed class CaretEventArgs : EventArgs
     public WpfPoint Position { get; }
     public bool Activation { get; }
     public bool LanguageChanged { get; }
+    public bool FocusChanged { get; }
+    public bool VariantChanged { get; }
 
-    public CaretEventArgs(WpfPoint position, bool activation, bool languageChanged)
+    public CaretEventArgs(WpfPoint position, bool activation, bool languageChanged, bool focusChanged = false, bool variantChanged = false)
     {
         Position = position;
         Activation = activation;
         LanguageChanged = languageChanged;
+        FocusChanged = focusChanged;
+        VariantChanged = variantChanged;
     }
 }
 
@@ -105,15 +109,16 @@ public sealed class CaretTrackingService : IDisposable
             return;
         }
 
-        var language = _languageMonitor.GetCurrentDisplayText();
+        var language = _languageMonitor.GetCurrentLanguageIdentifier();
         var languageChanged = !string.IsNullOrWhiteSpace(language) && !string.Equals(language, _lastLanguage, StringComparison.Ordinal);
+        var variantChanged = languageChanged && language.Split('-')[0] == _lastLanguage.Split('-')[0];
         var focusChanged = foreground != _lastWindow || info.FocusedWindow != _lastFocus;
         var activation = _activationPending || focusChanged || languageChanged;
         _lastWindow = foreground;
         _lastFocus = info.FocusedWindow;
         _lastLanguage = language;
         _activationPending = false;
-        CaretChanged?.Invoke(this, new CaretEventArgs(position.Value, activation, languageChanged));
+        CaretChanged?.Invoke(this, new CaretEventArgs(position.Value, activation, languageChanged, focusChanged, variantChanged));
     }
 
     private static bool IsEditable(IntPtr focus)

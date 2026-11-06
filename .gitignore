@@ -13,4 +13,6 @@ TestResults/
 *.user
 *.suo
 .vs/
+.vscode/
+tmp/
 Thumbs.db

@@ -43,7 +43,7 @@ Choose **Dark**, **Light**, or **System** to seamlessly match your Windows mode.
 Pick the ideal size in **Settings → Appearance**. The keyboard icon, typography, and container scale harmoniously together.
 
 <p align="center">
-  <img src="docs/images/sizes.png" alt="Indicator sizes from Extra small to Extra large" width="920">
+  <img src="docs/images/sizes.png" alt="Indicator sizes from Extra small to Extra large" width="760">
 </p>
 
 ---
